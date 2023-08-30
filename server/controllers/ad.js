@@ -33,7 +33,7 @@ exports.addAd = async (req, res, next) => {
       category,
       owner: req.user.id,
     });
-    ad.image = `http://localhost:3000/upload/image/${ad.image}`;
+    ad.image = `/upload/image/${ad.image}`;
 
     console.log("ad body", ad);
     // Create room for auction

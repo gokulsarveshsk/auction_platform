@@ -79,7 +79,7 @@ function MediaCard(props) {
         style={{
           background: `url(${
             props.ad.image !== "http://localhost:3000/upload/image/"
-              ? props.ad.image
+              ? process.env.REACT_APP_API_BASE_URL + props.ad.image
               : imagePlaceholder
           })`,
           backgroundSize: "cover",
