@@ -1,0 +1,77 @@
+@font-face {
+  font-family: "RivieraBlack";
+  src: local("RivieraBlack"),
+    url("./assets/fonts/RivieraNightsTrial-Black.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "RivieraBold";
+  src: local("RivieraBold"),
+    url("./assets/fonts/RivieraNightsTrial-Bold.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "RivieraRegular";
+  src: local("RivieraRegular"),
+    url("./assets/fonts/RivieraNightsTrial-Regular.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "RivieraLight";
+  src: local("RivieraLight"),
+    url("./assets/fonts/RivieraNightsTrial-Light.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "GilroyBlack";
+  src: local("GilroyBlack"),
+    url("./assets/fonts/Gilroy/Gilroy-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GilroyBold";
+  src: local("GilroyBold"),
+    url("./assets/fonts/Gilroy/Gilroy-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GilroySemiBold";
+  src: local("GilroySemiBold"),
+    url("./assets/fonts/Gilroy/Gilroy-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GilroyRegular";
+  src: local("GilroyRegular"),
+    url("./assets/fonts/Gilroy/Gilroy-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GilroyThin";
+  src: local("GilroyThin"),
+    url("./assets/fonts/Gilroy/Gilroy-Thin.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GilroyLight";
+  src: local("GilroyLight"),
+    url("./assets/fonts/Gilroy/Gilroy-Light.ttf") format("truetype");
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: "GilroyRegular", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

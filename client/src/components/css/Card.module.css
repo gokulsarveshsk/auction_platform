@@ -1,0 +1,80 @@
+.img {
+  height: 225px;
+  width: 225px;
+  border-radius: 5px 5px 0 0;
+  /* background-color: pink; */
+  /* background-image: url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100");
+    background-position: center; */
+  position: relative;
+}
+
+.img-overlay {
+  position: absolute;
+  bottom: 0;
+  height: 25%;
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+
+  backdrop-filter: blur(6px) saturate(180%);
+  -webkit-backdrop-filter: blur(6px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.32);
+  border-radius: 12px 3px 12px 3px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+
+  /* backdrop-filter: blur(6px) saturate(150%);
+    -webkit-backdrop-filter: blur(6px) saturate(150%);
+    background-color: rgba(17, 25, 40, 0.25);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125); */
+
+  /* backdrop-filter: blur(16px) saturate(200%);
+    -webkit-backdrop-filter: blur(16px) saturate(200%);
+    background-color: rgba(116, 116, 116, 0.5);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.125); */
+}
+
+.img-overlay div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.img-overlay div p {
+  font-size: 0.7rem;
+  font-family: "GilroyLight";
+  color: white;
+  margin: 0;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.time span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+}
+
+.time h3 {
+  font-size: 1.2rem;
+  font-family: "GilroyBold";
+  margin: 0;
+  font-weight: bold;
+}
+
+.time span p {
+  /* font-size: 1rem; */
+  font-family: "GilroyRegular";
+  margin: 0;
+  color: white;
+}
