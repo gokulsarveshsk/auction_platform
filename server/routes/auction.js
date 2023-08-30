@@ -9,7 +9,7 @@ const isAuth = require('../middlewares/isAuth');
 // @route   GET /auction/start/:adId
 // @desc    Start auction
 // @access  protected
-router.get('/start/:adId', isAuth, auctionController.startAuction);
+router.get('/start/:adId', auctionController.startAuction);
 
 // TODO:
 // @route   POST /auction/end/:adId

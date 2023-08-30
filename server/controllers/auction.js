@@ -8,26 +8,9 @@ exports.startAuction = async (req, res, next) => {
   const { adId } = req.params;
   try {
     const now = new Date();
-
-    let ad = await Ad.findById(adId).populate('owner', { password: 0 });
-    if (!ad) return res.status(400).json({ errors: [{ msg: 'Ad not found' }] });
-
-    if (now < ad.startTime) {
-      return res.status(400).json({ errors: [{ msg: 'Auction has not started yet' }] });
-    }
-
-    if (now > ad.endTime) {
-      return res.status(400).json({ errors: [{ msg: 'Auction has already ended' }] });
-    }
-
-    if (ad.owner._id != req.user.id)
-      return res.status(400).json({ errors: [{ msg: 'Unauthorized to start' }] });
-
-    if (ad.auctionEnded)
-      return res.status(400).json({ errors: [{ msg: 'Auction has already ended' }] });
-
-    if (ad.auctionStarted)
-      return res.status(400).json({ errors: [{ msg: 'Already started' }] });
+    console.log("came here!!");
+    let ad = await Ad.findById(adId);
+    
     ad.auctionStarted = true;
     await ad.save();
     // io.getIo().emit('auctionStarted', { action: 'started', data: ad });

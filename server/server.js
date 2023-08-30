@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 require('dotenv').config();
 const connectDb = require('./db/dbconnect');
 const { createServer } = require('http');
@@ -6,6 +7,10 @@ const multer = require('multer');
 const socketio = require('./socket');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = require('./documentation/swaggerSetup');
+const cron = require('node-cron');
+const axios = require('axios');
+const Ad = require('./models/Ad'); // Import your Ad model
+
 
 const app = express();
 const server = createServer(app);
@@ -71,3 +76,23 @@ connectDb();
 server.listen(PORT, () => {
   console.log(`### Server running on port ${PORT}`);
 });
+
+cron.schedule('* * * * * *', async () => {
+  try {
+    const currentTime = moment().unix(); // Current time in Unix timestamp
+    let data = { startTime: currentTime}
+    const adsToTrigger = await Ad.find(data);
+    for (const ad of adsToTrigger) {
+      const adId = ad._id; // Adjust this based on your data structure
+      const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
+      let res = await axios.get(url);
+      console.log("res", res);
+      console.log(`HTTP GET request triggered for ad ${adId}`);
+    }
+
+    console.log('Scheduled task executed successfully.');
+  } catch (error) {
+    console.error('Error in scheduled task:', error);
+  }
+});
+

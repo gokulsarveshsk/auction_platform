@@ -27,7 +27,7 @@ const adSchema = new mongoose.Schema(
       default: 300,
     },
     startTime: {
-      type: Date,
+      type: types.Decimal128,
     },
     endTime: {
       type: Date,
