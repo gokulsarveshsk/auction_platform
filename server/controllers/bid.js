@@ -32,7 +32,7 @@ exports.addBid = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ errors: [{ msg: 'Server error' }] });
-  }
+  }  
 };
 
 // @route   GET /bid/:adId?option=<highest>

@@ -1,6 +1,16 @@
 const Ad = require('../models/Ad');
 const User = require('../models/User');
 const io = require('../socket');
+const nodemailer = require('nodemailer');
+const generateInvoicePdf = require('./pdfgenerator'); // Corrected import statement
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.AUTH_EMAIL,
+    pass: process.env.AUTH_PASS,
+  },
+});
 
 // @route   POST /auction/start/:adId
 // @desc    Start auction
@@ -46,6 +56,26 @@ exports.startAuction = async (req, res, next) => {
         await auctionEndAd.save();
         // Add product to winner
         let winner = await User.findById(auctionEndAd.currentBidder);
+
+        // Send email to the winner
+        try {
+          const invoicePdfPath = await generateInvoicePdf(auctionEndAd, winner);
+          await transporter.sendMail({
+            from: process.env.AUTH_EMAIL,
+            to: winner.email,
+            subject: 'Congratulations! You won the auction!',
+            text: `You have won the auction for the ad. Product details: ${auctionEndAd}`,
+            attachments: [
+              {
+                filename: 'invoice.pdf',
+                path: invoicePdfPath,
+              },
+            ],
+          });
+          console.log('pdf sent');
+        } catch (error) {
+          console.log(error);
+        }
         winner.purchasedProducts.push(auctionEndAd._id);
         await winner.save();
         io.getAdIo()

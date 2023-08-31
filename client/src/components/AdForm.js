@@ -28,7 +28,7 @@ import LoadingDisplay from './LoadingDisplay';
 import { postAd } from '../actions/ad';
 import { setAlert, clearAlerts } from '../actions/alert';
 
-import Nav from './Nav';
+// import { Navigate } from 'react-router-dom';
 
 const AdForm = (props) => {
   const [form, setForm] = useState({
@@ -136,7 +136,6 @@ const AdForm = (props) => {
 
   return (
     <Fragment>
-      <Nav />
       <Box sx={boxStyle}>
         <Paper sx={adFormArea}>
           {/* Page title */}

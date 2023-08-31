@@ -89,8 +89,7 @@ cron.schedule('* * * * * *', async () => {
       console.log("res", res);
       console.log(`HTTP GET request triggered for ad ${adId}`);
     }
-
-    console.log('Scheduled task executed successfully.');
+    // console.log('Scheduled task executed successfully.');
   } catch (error) {
     console.error('Error in scheduled task:', error);
   }
