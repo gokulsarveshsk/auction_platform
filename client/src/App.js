@@ -7,7 +7,7 @@ import Home from "./components/Home";
 import Register from "./components/Register";
 import Ad from "./components/Ad";
 import AdForm from "./components/AdForm";
-import Nav from "./components/OldNav";
+import Nav from "./components/Nav";
 import Dashboard from "./components/Dashboard";
 // Actions
 import { loadUser } from "./actions/auth";

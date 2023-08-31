@@ -25,8 +25,6 @@ import LoadingDisplay from "./LoadingDisplay";
 import { getUserPurchasedAds } from "../actions/ad";
 import DashPurchasedList from "./DashPurchasedList";
 
-import Nav from "./Nav";
-
 const Dashboard = (props) => {
   const navigate = useNavigate();
 
@@ -51,7 +49,6 @@ const Dashboard = (props) => {
     <Spinner />
   ) : (
     <Fragment>
-      <Nav />
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
           <Typography variant="h5">My Profile</Typography>

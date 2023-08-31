@@ -224,7 +224,7 @@ const Ad = (props) => {
     inp.style.boxShadow = "none";
   };
 
-  console.log(props);
+  console.log(props.adDetails);
 
   return props.loading ? (
     <Spinner />
@@ -255,8 +255,15 @@ const Ad = (props) => {
               height: "100%",
               width: "100%",
               borderRadius: "15px",
-              backgroundColor: "#000",
-              //   background: `url(${imagePlaceholder})`,
+              // backgroundColor: "#000",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              background: `url(${
+                props.adDetails.image !== "http://localhost:3000/upload/image/"
+                  ? props.adDetails.image
+                  : imagePlaceholder
+              })`,
             }}
           ></div>
         </div>

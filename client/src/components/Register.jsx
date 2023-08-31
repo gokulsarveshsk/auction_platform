@@ -110,20 +110,28 @@ const Register = (props) => {
     let emailLabel = document.getElementById("email-label");
     let passwordInput = document.getElementById("password");
     let passwordLabel = document.getElementById("password-label");
+    let cPInput = document.getElementById("confirm-password");
+    let cPLabel = document.getElementById("confirm-password-label");
 
-    if (nameInput.className === styles["alert-box"])
+    if (nameInput && nameInput.className === styles["alert-box"])
       nameInput.className = styles["form-control"];
-    if (nameLabel.className === styles["alert-label"]) nameLabel.className = "";
+    if (nameLabel && nameLabel.className === styles["alert-label"])
+      nameLabel.className = "";
 
-    if (emailInput.className === styles["alert-box"])
+    if (emailInput && emailInput.className === styles["alert-box"])
       emailInput.className = styles["form-control"];
-    if (emailLabel.className === styles["alert-label"])
+    if (emailLabel && emailLabel.className === styles["alert-label"])
       emailLabel.className = "";
 
-    if (passwordInput.className === styles["alert-box"])
+    if (passwordInput && passwordInput.className === styles["alert-box"])
       passwordInput.className = styles["form-control"];
-    if (passwordLabel.className === styles["alert-label"])
+    if (passwordLabel && passwordLabel.className === styles["alert-label"])
       passwordLabel.className = "";
+
+    if (cPInput && cPInput.className === styles["alert-box"])
+      cPInput.className = styles["form-control"];
+    if (cPLabel && cPLabel.className === styles["alert-label"])
+      cPLabel.className = "";
   };
 
   const onSubmit = async (e) => {
@@ -139,7 +147,7 @@ const Register = (props) => {
     } else {
       props.register({ name, email, password, address, phone });
     }
-    setTimeout(removeAler, 4000);
+    setTimeout(removeAler, 3500);
   };
 
   // If already auth, redirect to dashboard

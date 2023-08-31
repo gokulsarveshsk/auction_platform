@@ -59,14 +59,14 @@ const Login = (props) => {
     let passwordInput = document.getElementById("password");
     let passwordLabel = document.getElementById("password-label");
 
-    if (emailInput.className === styles["alert-box"])
+    if (emailInput && emailInput.className === styles["alert-box"])
       emailInput.className = styles["form-control"];
-    if (emailLabel.className === styles["alert-label"])
+    if (emailLabel && emailLabel.className === styles["alert-label"])
       emailLabel.className = "";
 
-    if (passwordInput.className === styles["alert-box"])
+    if (passwordInput && passwordInput.className === styles["alert-box"])
       passwordInput.className = styles["form-control"];
-    if (passwordLabel.className === styles["alert-label"])
+    if (passwordLabel && passwordLabel.className === styles["alert-label"])
       passwordLabel.className = "";
   };
 
