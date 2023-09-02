@@ -9,6 +9,7 @@ const adSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      required: true,
     },
     basePrice: {
       type: types.Decimal128,
@@ -27,17 +28,22 @@ const adSchema = new mongoose.Schema(
       default: 300,
     },
     startTime: {
-      type: types.Decimal128,
+      type: Date,
+      required: true,
     },
     endTime: {
       type: Date,
+      required: true,
     },
     soldAt: {
       type: Date,
     },
-    image: {
-      type: String,
-    },
+    images: [
+      {
+        type: String, // Store image URLs as strings
+        required: true,
+      },
+    ],
     catergory: {
       type: String,
     },

@@ -14,15 +14,262 @@ import { setAlert, clearAlerts } from "../actions/alert";
 import styles from "./css/AdForm.module.css";
 
 const AdForm = (props) => {
-  // Check if user is logged
-  //   if (!props.isAuth) {
-  //     return <Navigate to="/login" />;
-  //   }
+  const [form, setForm] = useState({
+    productName: "",
+    category: "",
+    basePrice: 0,
+    description: "",
+    images: "",
+    startTime: new Date(),
+    endTime: new Date(),
+    duration: 0,
+  });
+
+  const [startDate, setStartDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [imgs, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      props.clearAlerts();
+    };
+  }, []);
+
+  const handleFormChange = (e) => {
+    e.preventDefault();
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+  };
+
+  const handleStartTimeChange = (e) => {
+    setStartTime(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+  };
+
+  const handleEndTimeChange = (e) => {
+    setEndTime(e.target.value);
+  };
 
   const handleImageOnChange = (e) => {
     let inp = document.getElementById(e.target.id);
     inp.parentElement.children[0].textContent = e.target.files[0].name;
+
+    let file = e.target.files[0];
+    setImages(
+      imgs.concat({
+        name: file.name,
+        file: file,
+      })
+    );
   };
+
+  const uploadImage = async (image) => {
+    setUploading(true);
+    let formData = new FormData();
+
+    formData.append("image", image.file);
+
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/upload/image`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      
+      return res.data;
+    } catch (error) {
+      console.log("Inside error");
+      console.log(error);
+      setUploading(false);
+    }
+  };
+
+  const removeAlerts = () => {
+    let pLabel = document.getElementById("productLabel");
+    let pInp = document.getElementById("productInput");
+    pLabel.style.color = "#696969";
+    pInp.style.border = "2px solid #c9c9c6";
+
+    let cInp = document.getElementById("categoryInput");
+    let cLabel = document.getElementById("categoryLabel");
+    cLabel.style.color = "#696969";
+    cInp.style.border = "2px solid #c9c9c6";
+
+    let bInp = document.getElementById("basePriceInput");
+    let bLabel = document.getElementById("basePriceLabel");
+    bLabel.style.color = "#696969";
+    bInp.style.border = "2px solid #c9c9c6";
+
+    let dInp = document.getElementById("descInput");
+    let dLabel = document.getElementById("descLabel");
+    dLabel.style.color = "#696969";
+    dInp.style.border = "2px solid #c9c9c6";
+
+    let imgLabel = document.getElementById("imgLabel");
+    imgLabel.style.color = "#696969";
+
+    let imgContainers = document.getElementsByClassName("img-upload");
+    for (let i = 0; i < imgContainers.length; i++) {
+      imgContainers[i].style.border = "2px dashed #c9c9c6";
+    }
+
+    let startDateLabel = document.getElementById("startDateLabel");
+    startDateLabel.style.color = "#696969";
+
+    let startTimeLabel = document.getElementById("startTimeLabel");
+    startTimeLabel.style.color = "#696969";
+
+    let startDateInput = document.getElementById("startDate");
+    startDateInput.style.border = "2px solid #c9c9c6";
+
+    let startTimeInput = document.getElementById("startTime");
+    startTimeInput.style.border = "2px solid #c9c9c6";
+
+    let endDateLabel = document.getElementById("endDateLabel");
+    endDateLabel.style.color = "#696969";
+
+    let endTimeLabel = document.getElementById("endTimeLabel");
+    endTimeLabel.style.color = "#696969";
+
+    let endDateInput = document.getElementById("endDate");
+    endDateInput.style.border = "2px solid #c9c9c6";
+
+    let endTimeInput = document.getElementById("endTime");
+    endTimeInput.style.border = "2px solid #c9c9c6";
+
+    let uImgDiv = document.getElementById("upload-images");
+    uImgDiv.children.item(2).style.color = "#9f9f9d";
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.productName === "") {
+      let pLabel = document.getElementById("productLabel");
+      let pInp = document.getElementById("productInput");
+      pLabel.style.color = "#df501c";
+      pInp.style.border = "2px solid #df501c";
+    }
+
+    if (form.category === "") {
+      let cInp = document.getElementById("categoryInput");
+      let cLabel = document.getElementById("categoryLabel");
+      cLabel.style.color = "#df501c";
+      cInp.style.border = "2px solid #df501c";
+    }
+
+    if (form.basePrice === 0) {
+      let bInp = document.getElementById("basePriceInput");
+      let bLabel = document.getElementById("basePriceLabel");
+      bLabel.style.color = "#df501c";
+      bInp.style.border = "2px solid #df501c";
+    }
+
+    if (form.description === "") {
+      let dInp = document.getElementById("descInput");
+      let dLabel = document.getElementById("descLabel");
+      dLabel.style.color = "#df501c";
+      dInp.style.border = "2px solid #df501c";
+    }
+
+    if (imgs.length != 4) {
+      let imgLabel = document.getElementById("imgLabel");
+      imgLabel.style.color = "#df501c";
+
+      let imgContainers = document.getElementsByClassName("img-upload");
+      for (let i = 0; i < imgContainers.length; i++) {
+        imgContainers[i].style.border = "2px dashed #df501c";
+      }
+    }
+
+    if (startDate === "" || startTime === "") {
+      let startDateLabel = document.getElementById("startDateLabel");
+      startDateLabel.style.color = "#df501c";
+
+      let startTimeLabel = document.getElementById("startTimeLabel");
+      startTimeLabel.style.color = "#df501c";
+
+      let startDateInput = document.getElementById("startDate");
+      startDateInput.style.border = "2px solid #df501c";
+
+      let startTimeInput = document.getElementById("startTime");
+      startTimeInput.style.border = "2px solid #df501c";
+    }
+
+    if (endDate === "" || endTime === "") {
+      let endDateLabel = document.getElementById("endDateLabel");
+      endDateLabel.style.color = "#df501c";
+
+      let endTimeLabel = document.getElementById("endTimeLabel");
+      endTimeLabel.style.color = "#df501c";
+
+      let endDateInput = document.getElementById("endDate");
+      endDateInput.style.border = "2px solid #df501c";
+
+      let endTimeInput = document.getElementById("endTime");
+      endTimeInput.style.border = "2px solid #df501c";
+    }
+
+    if (imgs.length != 4) {
+      let uImgDiv = document.getElementById("upload-images");
+      uImgDiv.children.item(2).style.color = "#df501c";
+    }
+
+    if (
+      form.productName === "" ||
+      form.category === "" ||
+      form.basePrice === 0 ||
+      form.description === "" ||
+      imgs.length != 4 ||
+      startDate === "" ||
+      startTime === "" ||
+      endDate === "" ||
+      endTime === "" ||
+      imgs.length != 4
+    )
+      setTimeout(removeAlerts, 3000);
+    else {
+      setForm({
+        ...form,
+        startTime: new Date(startDate + "T" + startTime),
+        endTime: new Date(endDate + "T" + endTime),
+      });
+
+      for (let i = 0; i < imgs.length; i++) {
+        let res = await uploadImage(imgs[i]);
+        console.log(res);
+        if (res) {
+          // Update the form.images array correctly
+          setForm((prevForm) => ({
+            ...prevForm,
+            images: [...prevForm.images, res.imagePath],
+          }));
+        }
+      }
+
+      console.log(form);
+      await props.postAd(form);
+      navigate("/");
+    }
+  };
+
+  // Check if user is logged
+  if (!props.isAuth) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Fragment>
@@ -70,10 +317,11 @@ const AdForm = (props) => {
                 width: "90%",
               }}
             >
-              <label className={styles["form-control-label"]}>
+              <label className={styles["form-control-label"]} id="productLabel">
                 Product Name
               </label>
               <input
+                id="productInput"
                 type="text"
                 className={styles["form-control"]}
                 name="productName"
@@ -82,10 +330,10 @@ const AdForm = (props) => {
                 placeholder="Enter the name of the product"
                 maxLength={15}
                 style={{
-                  marginBottom: "5px",
                   fontFamily: "GilroyLight",
                   fontSize: ".9rem",
                 }}
+                onChange={(e) => handleFormChange(e)}
               />
               <p
                 style={{
@@ -93,6 +341,7 @@ const AdForm = (props) => {
                   fontSize: ".9rem",
                   color: "#9f9f9d",
                   margin: "0",
+                  marginTop: "5px",
                 }}
               >
                 Do not exceed 15 characters when entering the product name.
@@ -105,8 +354,14 @@ const AdForm = (props) => {
                 width: "90%",
               }}
             >
-              <label className={styles["form-control-label"]}>Category</label>
+              <label
+                className={styles["form-control-label"]}
+                id="categoryLabel"
+              >
+                Category
+              </label>
               <input
+                id="categoryInput"
                 type="text"
                 className={styles["form-control"]}
                 name="category"
@@ -117,6 +372,7 @@ const AdForm = (props) => {
                   fontFamily: "GilroyLight",
                   fontSize: ".9rem",
                 }}
+                onChange={(e) => handleFormChange(e)}
               />
             </div>
             <div
@@ -126,7 +382,12 @@ const AdForm = (props) => {
                 width: "90%",
               }}
             >
-              <label className={styles["form-control-label"]}>Base Price</label>
+              <label
+                id="basePriceLabel"
+                className={styles["form-control-label"]}
+              >
+                Base Price
+              </label>
 
               <div
                 style={{
@@ -138,7 +399,9 @@ const AdForm = (props) => {
                 }}
               >
                 <input
-                  type="text"
+                  id="basePriceInput"
+                  type="number"
+                  min={0}
                   className={styles["form-control"]}
                   name="basePrice"
                   placeholder="Auction will start from this price"
@@ -146,12 +409,13 @@ const AdForm = (props) => {
                     marginBottom: "5px",
                     fontFamily: "GilroyLight",
                     fontSize: ".9rem",
-                    width: "80%",
+                    width: "87%",
                   }}
+                  onChange={(e) => handleFormChange(e)}
                 />
                 <div
                   style={{
-                    width: "15%",
+                    width: "10%",
                     height: "40px",
                     border: "2px solid #c9c9c6",
                     borderRadius: "8px",
@@ -161,13 +425,14 @@ const AdForm = (props) => {
                 >
                   <h4
                     style={{
-                      fontFamily: "GilroySemiBold",
+                      fontFamily: "GilroyBlack",
+                      fontWeight: "800",
                       color: "#696969",
                       margin: "0",
                       marginTop: "3px",
                     }}
                   >
-                    Rs
+                    ₹
                   </h4>
                 </div>
               </div>
@@ -179,11 +444,13 @@ const AdForm = (props) => {
                 width: "90%",
               }}
             >
-              <label className={styles["form-control-label"]}>
+              <label className={styles["form-control-label"]} id="descLabel">
                 Description
               </label>
               <textarea
+                id="descInput"
                 name="description"
+                onChange={(e) => handleFormChange(e)}
                 className={styles["form-control-textarea"]}
               ></textarea>
             </div>
@@ -207,6 +474,7 @@ const AdForm = (props) => {
               }}
             >
               <div
+                id="upload-images"
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -214,7 +482,7 @@ const AdForm = (props) => {
                   height: "100%",
                 }}
               >
-                <label className={styles["form-control-label"]}>
+                <label className={styles["form-control-label"]} id="imgLabel">
                   Product Image
                 </label>
                 <div
@@ -229,7 +497,7 @@ const AdForm = (props) => {
                 >
                   <label
                     htmlFor="file1"
-                    className={styles["custom-file-upload"]}
+                    className={`img-upload ${styles["custom-file-upload"]}`}
                   >
                     <div>
                       <p>
@@ -248,7 +516,7 @@ const AdForm = (props) => {
                   </label>
                   <label
                     htmlFor="file2"
-                    className={styles["custom-file-upload"]}
+                    className={`img-upload ${styles["custom-file-upload"]}`}
                   >
                     <div>
                       <p>
@@ -276,7 +544,7 @@ const AdForm = (props) => {
                   >
                     <label
                       htmlFor="file3"
-                      className={styles["custom-file-upload"]}
+                      className={`img-upload ${styles["custom-file-upload"]}`}
                       style={{
                         height: "47%",
                         width: "100%",
@@ -299,7 +567,7 @@ const AdForm = (props) => {
                     </label>
                     <label
                       htmlFor="file4"
-                      className={styles["custom-file-upload"]}
+                      className={`img-upload ${styles["custom-file-upload"]}`}
                       style={{
                         height: "47%",
                         width: "100%",
@@ -328,6 +596,7 @@ const AdForm = (props) => {
                     fontSize: ".9rem",
                     color: "#9f9f9d",
                     margin: "0",
+                    marginTop: "5px",
                   }}
                 >
                   You need to upload atleast 4 images of the product to post an
@@ -335,93 +604,138 @@ const AdForm = (props) => {
                 </p>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
+            <div>
               <div
                 style={{
-                  width: "45%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <label className={styles["form-control-label"]}>
-                  Auction Start Date
-                </label>
-                <input
-                  type="date"
-                  className={styles["form-control"]}
+                <div
                   style={{
-                    fontFamily: "GilroyLight",
-                    fontSize: ".9rem",
+                    width: "45%",
                   }}
-                  id="start-date"
-                />
+                >
+                  <label
+                    className={styles["form-control-label"]}
+                    id="startDateLabel"
+                  >
+                    Auction Start Date
+                  </label>
+                  <input
+                    id="startDate"
+                    type="date"
+                    value={startDate}
+                    className={styles["form-control"]}
+                    style={{
+                      fontFamily: "GilroyLight",
+                      fontSize: ".9rem",
+                    }}
+                    onChange={(e) => handleStartDateChange(e)}
+                  />
+                </div>
+                <div
+                  style={{
+                    width: "45%",
+                  }}
+                >
+                  <label
+                    className={styles["form-control-label"]}
+                    id="startTimeLabel"
+                  >
+                    Auction Start Time
+                  </label>
+                  <input
+                    id="startTime"
+                    type="time"
+                    value={startTime}
+                    // value="00:00:00"
+                    step={1}
+                    className={styles["form-control"]}
+                    // style={{ width: "95%" }}
+                    onChange={(e) => handleStartTimeChange(e)}
+                  />
+                </div>
               </div>
-              <div
+              <p
                 style={{
-                  width: "45%",
+                  fontFamily: "GilroyLight",
+                  fontSize: ".9rem",
+                  color: "#9f9f9d",
+                  margin: "0",
+                  marginTop: "5px",
                 }}
               >
-                <label className={styles["form-control-label"]}>
-                  Auction Start Time
-                </label>
-                <input
-                  type="time"
-                  // value="00:00:00"
-                  step={1}
-                  className={styles["form-control"]}
-                  // style={{ width: "95%" }}
-                  id="start-time"
-                />
-              </div>
+                Auction will start at this date and time.
+              </p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
+            <div>
               <div
                 style={{
-                  width: "45%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <label className={styles["form-control-label"]}>
-                  Auction End Date
-                </label>
-                <input
-                  type="date"
-                  className={styles["form-control"]}
+                <div
                   style={{
-                    fontFamily: "GilroyLight",
-                    fontSize: ".9rem",
+                    width: "45%",
                   }}
-                  id="end-date"
-                />
+                >
+                  <label
+                    className={styles["form-control-label"]}
+                    id="endDateLabel"
+                  >
+                    Auction End Date
+                  </label>
+                  <input
+                    id="endDate"
+                    type="date"
+                    className={styles["form-control"]}
+                    style={{
+                      fontFamily: "GilroyLight",
+                      fontSize: ".9rem",
+                    }}
+                    onChange={(e) => handleEndDateChange(e)}
+                  />
+                </div>
+                <div
+                  style={{
+                    width: "45%",
+                  }}
+                >
+                  <label
+                    className={styles["form-control-label"]}
+                    id="endTimeLabel"
+                  >
+                    Auction End Time
+                  </label>
+                  <input
+                    id="endTime"
+                    type="time"
+                    // value="00:00:00"
+                    step={1}
+                    className={styles["form-control"]}
+                    // style={{ width: "95%" }}
+                    onChange={(e) => handleEndTimeChange(e)}
+                  />
+                </div>
               </div>
-              <div
+
+              <p
                 style={{
-                  width: "45%",
+                  fontFamily: "GilroyLight",
+                  fontSize: ".9rem",
+                  color: "#9f9f9d",
+                  margin: "0",
+                  marginTop: "5px",
                 }}
               >
-                <label className={styles["form-control-label"]}>
-                  Auction End Time
-                </label>
-                <input
-                  type="time"
-                  // value="00:00:00"
-                  step={1}
-                  className={styles["form-control"]}
-                  // style={{ width: "95%" }}
-                  id="end-time"
-                />
-              </div>
+                Auction will start at this date and time.
+              </p>
             </div>
             <div
               style={{
@@ -432,11 +746,18 @@ const AdForm = (props) => {
             >
               <button
                 className={`${styles["form-control-btn"]} ${styles["add-btn"]}`}
+                onClick={(e) => {
+                  handleSubmit(e);
+                }}
               >
                 Add Product
               </button>
               <button
                 className={`${styles["form-control-btn"]} ${styles["cancel-btn"]}`}
+                onClick={() => {
+                  // navigate to /
+                  navigate("/");
+                }}
               >
                 Cancel
               </button>
@@ -448,4 +769,11 @@ const AdForm = (props) => {
   );
 };
 
-export default AdForm;
+const mapStateToProps = (state) => ({
+  loading: state.auth.loading,
+  isAuth: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { postAd, setAlert, clearAlerts })(
+  AdForm
+);

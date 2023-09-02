@@ -64,3 +64,10 @@
 .navRight .logout .navLink {
   margin: 0;
 }
+
+.profileIcon {
+  width: 30px;
+  height: 30px; 
+  border-radius: 50%;
+  object-fit: cover;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-
+import profileIcon from '../assets/sample.jpg';
 // Actions
 import { logout } from "../actions/auth";
 
@@ -61,6 +61,18 @@ const Nav = (props) => {
                 >
                   Logout
                 </RouterLink>
+              </li>
+              <li>
+                <RouterLink
+                    className={`nav-link ${styles.navLink}`}
+                    to="/profile"
+                  >
+                  <img
+                    src={profileIcon}
+                    alt="Profile"
+                    className={styles.profileIcon}
+                  />
+                  </RouterLink>
               </li>
             </div>
           </ul>

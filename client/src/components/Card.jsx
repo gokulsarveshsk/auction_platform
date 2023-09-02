@@ -65,10 +65,12 @@ function MediaCard(props) {
   return (
     <div
       style={{
-        boxShadow: "0 0 10px 0.5px #dfdfdf",
+        // boxShadow: "0 0 10px 0.5px #dfdfdf",
+        border: "1px solid #dfdfdf",
         borderRadius: "5px",
-        border: "none",
+        // border: "none",
         cursor: "pointer",
+        margin: "10px",
       }}
       className="card"
       onClick={(e) => {
@@ -78,8 +80,8 @@ function MediaCard(props) {
       <div
         style={{
           background: `url(${
-            props.ad.image !== "http://localhost:3000undefined"
-              ? props.ad.image
+            props.ad.image !== "/upload/image/undefined"
+              ? process.env.REACT_APP_API_BASE_URL + props.ad.image
               : imagePlaceholder
           })`,
           backgroundSize: "cover",

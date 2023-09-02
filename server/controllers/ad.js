@@ -6,6 +6,126 @@ const io = require('../socket');
 
 // @route   POST /ad
 // @desc    Post a new ad
+// exports.addAd = async (req, res, next) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({
+//       errors: errors.array(),
+//     });
+//   }
+
+//   let { productName, basePrice, startTime, endTime, duration, images, category, description } = req.body;
+//   if (duration === null || duration === 0) duration = 300;
+//   if (duration > 10800) duration = 3600;
+//   const timer = duration;
+
+//   try {
+//     let ad = new Ad({
+//       productName,
+//       description,
+//       basePrice,
+//       currentPrice: basePrice,
+//       startTime,
+//       endTime,
+//       duration,
+//       timer,
+//       images,
+//       category,
+//       owner: req.user.id,
+//     });
+//     ad.images = `/upload/image/${ad.images}`;
+
+//     console.log("ad body", ad);
+//     // Create room for auction
+//     let room = new Room({ ad: ad._id });
+//     room = await room.save();
+
+//     ad.room = room._id;
+//     ad = await ad.save();
+
+//     const user = await User.findById(ad.owner);
+//     user.postedAds.push(ad._id);
+//     await user.save();
+
+//     io.getIo().emit('addAd', { action: 'add', ad: ad });
+
+//     res.status(200).json({ ad, room });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ errors: [{ msg: 'Server error' }] });
+//   }
+// };
+
+//DURATION BY MATHS
+// exports.addAd = async (req, res, next) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({
+//       errors: errors.array(),
+//     });
+//   }
+
+//   const {
+//     productName,
+//     basePrice,
+//     startTime,
+//     endTime,
+//     category,
+//     description,
+//     images, // Assuming 'images' is an array of image paths
+//   } = req.body;
+
+//   // Calculate the duration in seconds based on startTime and endTime
+//   const startTimeDate = new Date(startTime);
+//   const endTimeDate = new Date(endTime);
+//   const duration = Math.floor((endTimeDate - startTimeDate) / 1000); // Convert milliseconds to seconds
+
+//   if (duration <= 0) {
+//     return res.status(400).json({
+//       errors: [{ msg: 'Invalid duration' }],
+//     });
+//   }
+
+//   const timer = duration;
+
+//   try {
+//     const ad = new Ad({
+//       productName,
+//       description,
+//       basePrice,
+//       currentPrice: basePrice,
+//       startTime,
+//       endTime,
+//       duration,
+//       timer,
+//       category,
+//       owner: req.user.id,
+//       images, // Store the array of image paths directly in the 'images' field
+//     });
+
+//     // Create room for auction
+//     let room = new Room({ ad: ad._id });
+//     room = await room.save();
+
+//     ad.room = room._id;
+//     await ad.save();
+
+//     const user = await User.findById(ad.owner);
+//     user.postedAds.push(ad._id);
+//     await user.save();
+
+//     io.getIo().emit('addAd', { action: 'add', ad });
+
+//     res.status(200).json({ ad, room });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ errors: [{ msg: 'Server error' }] });
+//   }
+// };
+
+// DURATION BY MOMENT
+const moment = require('moment'); // Import the moment library for date/time calculations
+
 exports.addAd = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -14,40 +134,55 @@ exports.addAd = async (req, res, next) => {
     });
   }
 
-  let { productName, basePrice, startTime, endTime, duration, image, category, description } = req.body;
-  if (duration === null || duration === 0) duration = 300;
-  if (duration > 10800) duration = 3600;
-  const timer = duration;
+  const {
+    productName,
+    basePrice,
+    startTime,
+    endTime,
+    category,
+    description,
+    images,
+  } = req.body;
+
+  // Calculate the duration as the difference between endTime and startTime
+  const startMoment = moment(startTime);
+  const endMoment = moment(endTime);
+  const durationInSeconds = endMoment.diff(startMoment, 'seconds');
+
+  if (durationInSeconds <= 0) {
+    // Handle the case where the duration is invalid (negative or zero)
+    return res.status(400).json({
+      errors: [{ msg: 'Invalid duration' }],
+    });
+  }
 
   try {
-    let ad = new Ad({
+    const ad = new Ad({
       productName,
       description,
       basePrice,
       currentPrice: basePrice,
       startTime,
       endTime,
-      duration,
-      timer,
-      image,
+      duration: durationInSeconds, // Set the calculated duration
+      timer: durationInSeconds, // Set the timer to the same value
       category,
       owner: req.user.id,
+      images,
     });
-    ad.image = `/upload/image/${ad.image}`;
 
-    console.log("ad body", ad);
     // Create room for auction
     let room = new Room({ ad: ad._id });
     room = await room.save();
 
     ad.room = room._id;
-    ad = await ad.save();
+    await ad.save();
 
     const user = await User.findById(ad.owner);
     user.postedAds.push(ad._id);
     await user.save();
 
-    io.getIo().emit('addAd', { action: 'add', ad: ad });
+    io.getIo().emit('addAd', { action: 'add', ad });
 
     res.status(200).json({ ad, room });
   } catch (err) {
@@ -55,6 +190,7 @@ exports.addAd = async (req, res, next) => {
     res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
+
 
 // @route   GET /ad
 // @desc    Retrieve list of all ads

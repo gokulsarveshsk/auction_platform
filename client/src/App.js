@@ -14,6 +14,7 @@ import { loadUser } from "./actions/auth";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
+import Profile from "./components/Profile";
 
 function App() {
   // Load user
@@ -32,6 +33,8 @@ function App() {
           <Route path="/ads/:adId" element={<Ad />} />
           <Route path="/postad" element={<AdForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+
         </Routes>
       </BrowserRouter>
     </Provider>

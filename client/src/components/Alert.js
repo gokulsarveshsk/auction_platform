@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import "./css/alert.css";
+// import "./css/alert.css";
 // Actions
 import { removeAlert } from "../actions/alert";
 // MUI

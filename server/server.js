@@ -10,13 +10,19 @@ const swaggerDoc = require('./documentation/swaggerSetup');
 const cron = require('node-cron');
 const axios = require('axios');
 const Ad = require('./models/Ad'); // Import your Ad model
-
+const cors = require('cors');
 
 const app = express();
 const server = createServer(app);
 const io = socketio.init(server);
 const adIo = socketio.initAdIo(server, '/socket/adpage');
 const upload = multer({ dest: 'uploads/' });
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 // Body parser
 app.use(express.json());

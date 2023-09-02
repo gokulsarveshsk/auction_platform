@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 // Components
 import LoadingDisplay from "./LoadingDisplay";
-import Card from "./OldCard";
+import Card from "./Card";
 import { Button, Box, ButtonGroup } from "@mui/material";
 // Styling
 import {

@@ -18,12 +18,13 @@ import { profileTableStyle, tableCellStyle } from "./css/dashStyle";
 import { clearAlerts } from "../actions/alert";
 
 // Project files
-import Spinner from "./OldSpinner";
+import Spinner from "./Spinner";
 import DashboardAdList from "./DashboardAdList";
 import LoadingDisplay from "./LoadingDisplay";
 // Actions
 import { getUserPurchasedAds } from "../actions/ad";
 import DashPurchasedList from "./DashPurchasedList";
+import Nav from "./Nav";
 
 const Dashboard = (props) => {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ const Dashboard = (props) => {
     <Spinner />
   ) : (
     <Fragment>
+      <Nav/>
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
           <Typography variant="h5">My Profile</Typography>

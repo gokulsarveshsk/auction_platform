@@ -260,8 +260,8 @@ const Ad = (props) => {
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               background: `url(${
-                props.adDetails.image !== "http://localhost:3000/upload/image/"
-                  ? props.adDetails.image
+                props.adDetails.image !== "/upload/image/undefined"
+                  ? process.env.REACT_APP_API_BASE_URL + props.adDetails.image
                   : imagePlaceholder
               })`,
             }}
