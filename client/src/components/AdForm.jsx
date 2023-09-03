@@ -19,12 +19,14 @@ const AdForm = (props) => {
     category: "",
     basePrice: 0,
     description: "",
-    images: "",
-    startTime: new Date(),
-    endTime: new Date(),
-    duration: 0,
+    bulkImages: [],
+    startTime: '',
+    endTime: '',
+    duration: 300
+
   });
 
+  console.log("form data", form);
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -185,15 +187,15 @@ const AdForm = (props) => {
       dInp.style.border = "2px solid #df501c";
     }
 
-    if (imgs.length != 4) {
-      let imgLabel = document.getElementById("imgLabel");
-      imgLabel.style.color = "#df501c";
+    // if (imgs.length != 4) {
+    //   let imgLabel = document.getElementById("imgLabel");
+    //   imgLabel.style.color = "#df501c";
 
-      let imgContainers = document.getElementsByClassName("img-upload");
-      for (let i = 0; i < imgContainers.length; i++) {
-        imgContainers[i].style.border = "2px dashed #df501c";
-      }
-    }
+    //   let imgContainers = document.getElementsByClassName("img-upload");
+    //   for (let i = 0; i < imgContainers.length; i++) {
+    //     imgContainers[i].style.border = "2px dashed #df501c";
+    //   }
+    // }
 
     if (startDate === "" || startTime === "") {
       let startDateLabel = document.getElementById("startDateLabel");
@@ -223,22 +225,23 @@ const AdForm = (props) => {
       endTimeInput.style.border = "2px solid #df501c";
     }
 
-    if (imgs.length != 4) {
-      let uImgDiv = document.getElementById("upload-images");
-      uImgDiv.children.item(2).style.color = "#df501c";
-    }
+    // if (imgs.length != 4) {
+    //   let uImgDiv = document.getElementById("upload-images");
+    //   uImgDiv.children.item(2).style.color = "#df501c";
+    // }
 
     if (
       form.productName === "" ||
       form.category === "" ||
       form.basePrice === 0 ||
       form.description === "" ||
-      imgs.length != 4 ||
+      // imgs.length != 4 ||
       startDate === "" ||
       startTime === "" ||
       endDate === "" ||
-      endTime === "" ||
-      imgs.length != 4
+      endTime === "" 
+      // endTime === "" ||
+      // imgs.length != 4
     )
       setTimeout(removeAlerts, 3000);
     else {
@@ -247,18 +250,14 @@ const AdForm = (props) => {
         startTime: new Date(startDate + "T" + startTime),
         endTime: new Date(endDate + "T" + endTime),
       });
-
       for (let i = 0; i < imgs.length; i++) {
         let res = await uploadImage(imgs[i]);
-        console.log(res);
-        if (res) {
-          // Update the form.images array correctly
-          setForm((prevForm) => ({
-            ...prevForm,
-            images: [...prevForm.images, res.imagePath],
-          }));
+        if(res)
+        {
+          form.bulkImages.push(res); // Add the URL to the 'form.images' array
         }
-      }
+        }
+      
 
       console.log(form);
       await props.postAd(form);

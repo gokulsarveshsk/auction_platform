@@ -18,7 +18,7 @@ const io = socketio.init(server);
 const adIo = socketio.initAdIo(server, '/socket/adpage');
 const upload = multer({ dest: 'uploads/' });
 const corsOptions = {
-  origin: 'http://localhost:3001',
+  origin: process.env.CLIENT_BASE_URL,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
