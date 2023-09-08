@@ -23,7 +23,7 @@ import DashboardAdList from "./DashboardAdList";
 import LoadingDisplay from "./LoadingDisplay";
 // Actions
 import { getUserPurchasedAds } from "../actions/ad";
-import DashPurchasedList from "./DashPurchasedList";
+import DashPurchasedList from "./OldDashPurchasedList";
 
 const Dashboard = (props) => {
   const navigate = useNavigate();
@@ -103,7 +103,7 @@ const Dashboard = (props) => {
         </Paper>
       </Box>
 
-      <Box sx={boxStyle}>
+      {/* <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
           <Typography variant="h5">My purchases</Typography>
           {props.purchasedLoading ? (
@@ -112,7 +112,7 @@ const Dashboard = (props) => {
             <DashPurchasedList ads={props.purchased} />
           )}
         </Paper>
-      </Box>
+      </Box> */}
     </Fragment>
   );
 };

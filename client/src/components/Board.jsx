@@ -71,42 +71,66 @@ const Board = (props) => {
   for (let i = 1; i <= num; i++) {
     pageNumbers.push(i);
   }
+
   // When page number button is clicked
   const clickPageNumberButton = (num) => {
     setPageNumber(num);
   };
 
   return props.loading ? (
-    // <div
-    //   style={{
-    //     height: "100vh",
-    //     width: "100vw",
-    //   }}
-    // >
     <Spinner />
   ) : (
-    // </div>
-    <div className={styles["container"]}>
-      <div className={styles["board"]}>
+    <div
+      className="container"
+      style={{
+        backgroundColor: "#F5F6FA",
+        width: "100%",
+      }}
+    >
+      <div className="row">
         {props.ads.length > 0 ? (
-          props.ads
-            .slice(firstAdIndex, lastAdIndex)
-            .map((ad) => <Card key={ad._id} ad={ad} />)
+          props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => (
+            <div
+              key={ad._id}
+              className="col-sm-12 col-md-6 col-lg-4 col-xl-4"
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Card ad={ad} />
+            </div>
+          ))
         ) : (
           <h1>No ads available</h1>
         )}
       </div>
-      {/* <div className={styles["pagination"]}>
-        {pageNumbers.map((num) => (
-          <button
-            key={num}
-            className={styles["page-btn"]}
-            onClick={() => clickPageNumberButton(num)}
-          >
-            {num}
-          </button>
-        ))}
-      </div> */}
+      <div className="row">
+        <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <nav>
+            <ul className="pagination justify-content-center">
+              {pageNumbers.map((num) => (
+                <li key={num} className="page-item">
+                  <button
+                    className={`page-link ${styles["page-button"]}`}
+                    style={{
+                      backgroundColor: num === pageNumber ? "#2d2d2d" : "",
+                      color: num === pageNumber ? "white" : "",
+                      border: num === pageNumber ? "none" : "",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                    }}
+                    onClick={() => clickPageNumberButton(num)}
+                  >
+                    {num}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
   );
 };
@@ -114,7 +138,7 @@ const Board = (props) => {
 const mapStateToProps = (state) => ({
   ads: state.ad.ads,
   loading: state.ad.loading,
-  isAuth: state.auth.isAuth,
+  isAuth: state.auth.isAuthenticated,
   user: state.auth.user,
 });
 

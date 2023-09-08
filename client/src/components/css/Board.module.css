@@ -1,16 +1,12 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+.page-button {
+  border: 2px solid #c9c9c6;
+  color: #2d2d2d;
+  margin: 0 5px;
 }
 
-.board {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+.page-button:hover {
+  background-color: #daa520;
+  color: white;
+  border: none;
+  transition: background-color 0.5s ease, color 0.5s;
 }

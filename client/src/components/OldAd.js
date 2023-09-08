@@ -5,7 +5,7 @@ import openSocket from "socket.io-client";
 // Actions
 import {
   loadAdDetails,
-  loadAdImage,
+  loadAdImages,
   loadHighestBid,
   placeBid,
   startAuction,
@@ -71,7 +71,7 @@ const Ad = (props) => {
 
   useEffect(() => {
     if (props.adDetails.image) {
-      props.loadAdImage(props.adDetails.image);
+      props.loadAdImages(props.adDetails.images);
     }
   }, [props.adDetails.image]);
 
@@ -224,7 +224,7 @@ const Ad = (props) => {
                       <img
                         src={
                           props.adDetails.image
-                            ? props.adImage
+                            ? props.adImages
                             : imagePlaceholder
                         }
                         alt={props.adDetails.productName}
@@ -328,13 +328,13 @@ const mapStateToProps = (state) => ({
   highestBid: state.ad.highestBid,
   loadingBid: state.ad.loadingHighestBid,
   auth: state.auth,
-  adImage: state.ad.adImage,
+  adImages: state.ad.adImages,
   imageLoading: state.ad.imageLoading,
 });
 
 export default connect(mapStateToProps, {
   loadAdDetails,
-  loadAdImage,
+  loadAdImages,
   loadHighestBid,
   placeBid,
   startAuction,

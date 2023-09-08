@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 // Actions
 import {
   loadAdDetails,
-  loadAdImage,
+  loadAdImages,
   setImageLoadingStatus,
 } from "../actions/ad";
 
@@ -65,61 +65,71 @@ function MediaCard(props) {
   return (
     <div
       style={{
-        boxShadow: "0 0 10px 0.5px #dfdfdf",
+        // boxShadow: "0 0 10px 0.5px #dfdfdf",
+        border: "1px solid #dfdfdf",
         borderRadius: "5px",
-        border: "none",
+        // border: "none",
         cursor: "pointer",
+        margin: "10px",
       }}
       className="card"
       onClick={(e) => {
         handleCardClick(e);
       }}
     >
-      <div
-        style={{
-          background: `url(${
-            props.ad.image !== "http://localhost:3000undefined"
-              ? props.ad.image
-              : imagePlaceholder
-          })`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-        className={`${styles["img"]}`}
-      >
-        <div className={styles["img-overlay"]}>
-          <div>
-            <p>Hours</p>
-            <div className={styles["time"]}>
-              <span>
-                <h3>{parseInt(hour) < 10 ? "0" + hour : hour}</h3>
-                {/* <h3>{hour}</h3> */}
-                <p>h</p>
-              </span>
+      {!props.dashCard && (
+        <div
+          style={{
+            background: `url(${
+              props.ad.image !== "/upload/image/undefined"
+                ? process.env.REACT_APP_API_BASE_URL +
+                  "/upload/image/" +
+                  props.ad.images[0]
+                : imagePlaceholder
+            })`,
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundPositionY: "25%",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            // objectFit: "contain",
+          }}
+          className={`${styles["img"]}`}
+        >
+          <div className={styles["img-overlay"]}>
+            <div>
+              <p>Hours</p>
+              <div className={styles["time"]}>
+                <span>
+                  <h3>{parseInt(hour) < 10 ? "0" + hour : hour}</h3>
+                  {/* <h3>{hour}</h3> */}
+                  <p>h</p>
+                </span>
+              </div>
             </div>
-          </div>
-          <div>
-            <p>Minute</p>
-            <div className={styles["time"]}>
-              <span>
-                {/* <h3>{min}</h3> */}
-                <h3>{parseInt(min) < 10 ? "0" + min : min}</h3>
-                <p>m</p>
-              </span>
+            <div>
+              <p>Minute</p>
+              <div className={styles["time"]}>
+                <span>
+                  {/* <h3>{min}</h3> */}
+                  <h3>{parseInt(min) < 10 ? "0" + min : min}</h3>
+                  <p>m</p>
+                </span>
+              </div>
             </div>
-          </div>
-          <div>
-            <p>Second</p>
-            <div className={styles["time"]}>
-              <span>
-                {/* <h3>{seconds}</h3> */}
-                <h3>{parseInt(seconds) < 10 ? "0" + seconds : seconds}</h3>
-                <p>s</p>
-              </span>
+            <div>
+              <p>Second</p>
+              <div className={styles["time"]}>
+                <span>
+                  {/* <h3>{seconds}</h3> */}
+                  <h3>{parseInt(seconds) < 10 ? "0" + seconds : seconds}</h3>
+                  <p>s</p>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <div
         style={{
           padding: `10px 10px`,
@@ -165,6 +175,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   loadAdDetails,
-  loadAdImage,
+  loadAdImages,
   setImageLoadingStatus,
 })(MediaCard);

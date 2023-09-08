@@ -14,6 +14,7 @@ import { loadUser } from "./actions/auth";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
+import PurchaseList from "./components/PurchaseList";
 
 function App() {
   // Load user
@@ -32,6 +33,7 @@ function App() {
           <Route path="/ads/:adId" element={<Ad />} />
           <Route path="/postad" element={<AdForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/purchased" element={<PurchaseList />} />
         </Routes>
       </BrowserRouter>
     </Provider>

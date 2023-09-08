@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const types = mongoose.Types;
 
 const adSchema = new mongoose.Schema(
@@ -9,6 +9,7 @@ const adSchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      required: true,
     },
     basePrice: {
       type: types.Decimal128,
@@ -27,17 +28,22 @@ const adSchema = new mongoose.Schema(
       default: 300,
     },
     startTime: {
-      type: types.Decimal128,
+      type: Date,
+      required: true,
     },
     endTime: {
       type: Date,
+      required: true,
     },
     soldAt: {
       type: Date,
     },
-    image: {
-      type: String,
-    },
+    images: [
+      {
+        type: String, // Store image URLs as strings
+        required: true,
+      },
+    ],
     catergory: {
       type: String,
     },
@@ -55,21 +61,21 @@ const adSchema = new mongoose.Schema(
     },
     owner: {
       type: types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     purchasedBy: {
       type: types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     currentBidder: {
       type: types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     bids: [
       {
         user: {
           type: types.ObjectId,
-          ref: 'user',
+          ref: "user",
           required: true,
         },
         amount: {
@@ -84,10 +90,10 @@ const adSchema = new mongoose.Schema(
     ],
     room: {
       type: types.ObjectId,
-      ref: 'room',
+      ref: "room",
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('ad', adSchema);
+module.exports = mongoose.model("ad", adSchema);

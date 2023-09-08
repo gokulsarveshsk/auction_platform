@@ -6,7 +6,7 @@ import openSocket from "socket.io-client";
 // Actions
 import {
   loadAdDetails,
-  loadAdImage,
+  loadAdImages,
   loadHighestBid,
   placeBid,
   startAuction,
@@ -30,6 +30,7 @@ import { secondsToHms } from "../utils/secondsToHms";
 import styles from "./css/Ad.module.css";
 
 const Ad = (props) => {
+  console.log(props);
   // Extract route parameters and set initial state
   const params = useParams();
   const [bidPrice, setBidPrice] = useState(0);
@@ -61,10 +62,10 @@ const Ad = (props) => {
 
   // Load ad image when the ad image changes
   useEffect(() => {
-    if (props.adDetails.image) {
-      props.loadAdImage(props.adDetails.image);
+    if (props.adDetails.images) {
+      props.loadAdImages(props.adDetails.images);
     }
-  }, [props.adDetails.image]);
+  }, [props.adDetails.images]);
 
   // Load highest bid when the component mounts or when adId changes
   useEffect(() => {
@@ -224,8 +225,6 @@ const Ad = (props) => {
     inp.style.boxShadow = "none";
   };
 
-  console.log(props.adDetails);
-
   return props.loading ? (
     <Spinner />
   ) : (
@@ -250,22 +249,28 @@ const Ad = (props) => {
             padding: "20px",
           }}
         >
-          <div
-            style={{
-              height: "100%",
-              width: "100%",
-              borderRadius: "15px",
-              // backgroundColor: "#000",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              background: `url(${
-                props.adDetails.image !== "http://localhost:3000/upload/image/"
-                  ? props.adDetails.image
-                  : imagePlaceholder
-              })`,
-            }}
-          ></div>
+          {!props.imageLoading && props.adImages ? (
+            <div
+              style={{
+                background: `url(${
+                  props.adDetails.image !== "/upload/image/undefined"
+                    ? props.adImages[0]
+                    : // ? process.env.REACT_APP_API_BASE_URL +
+                      //   "/upload/image/" +
+                      // props.adImages[0]
+                      imagePlaceholder
+                })`,
+                height: "100%",
+                width: "100%",
+                borderRadius: "15px",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            ></div>
+          ) : (
+            <Spinner />
+          )}
         </div>
         {props.adDetails.basePrice ? (
           <div
@@ -787,13 +792,13 @@ const mapStateToProps = (state) => ({
   highestBid: state.ad.highestBid,
   loadingBid: state.ad.loadingHighestBid,
   auth: state.auth,
-  adImage: state.ad.adImage,
+  adImages: state.ad.adImages,
   imageLoading: state.ad.imageLoading,
 });
 
 export default connect(mapStateToProps, {
   loadAdDetails,
-  loadAdImage,
+  loadAdImages,
   loadHighestBid,
   placeBid,
   startAuction,

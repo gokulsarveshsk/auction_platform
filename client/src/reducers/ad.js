@@ -14,7 +14,7 @@ import {
   CLEAR_AD_IMAGE,
   IMAGE_LOADING,
   CLEAR_AD_DETAILS,
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
   ads: [],
@@ -22,10 +22,10 @@ const initialState = {
   imageLoading: true,
   adDetails: { currentPrice: { $numberDecimal: 0 } },
   loadingHighestBid: true,
-  highestBid: { user: { username: '' } },
+  highestBid: { user: { username: "" } },
   purchasedLoading: true,
   purchased: [],
-  adImage: null,
+  adImages: [],
 };
 
 export default function adReduce(state = initialState, action) {
@@ -53,9 +53,12 @@ export default function adReduce(state = initialState, action) {
       };
 
     case LOAD_AD_IMAGE:
+      {
+        console.log("payload", payload);
+      }
       return {
         ...state,
-        adImage: payload,
+        adImages: payload,
         imageLoading: false,
       };
 
@@ -68,7 +71,7 @@ export default function adReduce(state = initialState, action) {
     case CLEAR_AD_IMAGE:
       return {
         ...state,
-        adImage: null,
+        adImages: null,
         loading: false,
       };
 

@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 // Styling
 import "./css/home.css";
 // Components
-import Board from "./OldBoard";
+import Board from "./Board";
 import Alert from "./Alert";
 import Nav from "./Nav";
 // import Board from "./Board";
@@ -16,7 +16,12 @@ const Home = (props) => {
   }
 
   return (
-    <div className="home">
+    <div
+      className="home"
+      style={{
+        backgroundColor: "#F5F6FA",
+      }}
+    >
       <Nav />
       {/* <div className='nav__display'>
         <Nav />
@@ -24,7 +29,12 @@ const Home = (props) => {
       <div className="alert__display">
         <Alert />
       </div>
-      <div className="product__board">
+      <div
+        className="product__board"
+        style={{
+          backgroundColor: "#F5F6FA",
+        }}
+      >
         <Board />
       </div>
     </div>
