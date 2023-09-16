@@ -4,13 +4,9 @@ import styles from "./css/Spinner.module.css";
 
 const Spinner = () => {
   return (
-    <div className={styles["wrapper"]}>
-      <div className={styles["circle"]}></div>
-      <div className={styles["circle"]}></div>
-      <div className={styles["circle"]}></div>
-      <div className={styles["shadow"]}></div>
-      <div className={styles["shadow"]}></div>
-      <div className={styles["shadow"]}></div>
+    <div class={styles["spinner"]}>
+      <div class={styles["loader l1"]}></div>
+      <div class={styles["loader l2"]}></div>
     </div>
   );
 };

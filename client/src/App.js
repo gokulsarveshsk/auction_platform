@@ -9,12 +9,15 @@ import Ad from "./components/Ad";
 import AdForm from "./components/AdForm";
 import Nav from "./components/Nav";
 import Dashboard from "./components/Dashboard";
+import Profile from "./components/Profile";
 // Actions
 import { loadUser } from "./actions/auth";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
 import PurchaseList from "./components/PurchaseList";
+import Footer from "./components/Footer";
+import AdList from "./components/AdList";
 
 function App() {
   // Load user
@@ -34,6 +37,9 @@ function App() {
           <Route path="/postad" element={<AdForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/purchased" element={<PurchaseList />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/myads" element={<AdList/>} />
+          <Route path="/purchaseList" element={<PurchaseList />} />
         </Routes>
       </BrowserRouter>
     </Provider>

@@ -26,7 +26,7 @@ exports.addAd = async (req, res, next) => {
   } = req.body;
 
   if (duration === null || duration === 0) duration = 300;
-  if (duration > 10800) duration = 3600;
+  // if (duration > 10800) duration = 3600;
   const timer = duration;
 
   try {
@@ -43,6 +43,9 @@ exports.addAd = async (req, res, next) => {
       owner: req.user.id,
       images, // Store the object with four image paths directly in the 'images' field
     });
+    
+console.log(ad.startTime);
+console.log(ad.endTime);
 
     // images.forEach((image, index) => {
     //   ad.images[index] = `/upload/image/${image}`; // Store the image paths as strings

@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Nav from "./Nav";
 // MUI
 import {
   Box,
@@ -49,6 +50,7 @@ const Dashboard = (props) => {
     <Spinner />
   ) : (
     <Fragment>
+      <Nav/>
       <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
           <Typography variant="h5">My Profile</Typography>
@@ -103,7 +105,7 @@ const Dashboard = (props) => {
         </Paper>
       </Box>
 
-      {/* <Box sx={boxStyle}>
+      <Box sx={boxStyle}>
         <Paper sx={paperStyle}>
           <Typography variant="h5">My purchases</Typography>
           {props.purchasedLoading ? (
@@ -112,7 +114,7 @@ const Dashboard = (props) => {
             <DashPurchasedList ads={props.purchased} />
           )}
         </Paper>
-      </Box> */}
+      </Box>
     </Fragment>
   );
 };

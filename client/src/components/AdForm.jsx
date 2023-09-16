@@ -12,6 +12,7 @@ import { postAd } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
 
 import styles from "./css/AdForm.module.css";
+import Footer from "./Footer";
 
 const AdForm = (props) => {
   const [form, setForm] = useState({
@@ -213,21 +214,15 @@ const AdForm = (props) => {
       form.category === "" ||
       form.basePrice === 0 ||
       form.description === "" ||
-      imgs.length != 4 ||
+      imgs.length !== 4 ||
       startDate === "" ||
       startTime === "" ||
       endDate === "" ||
       endTime === "" ||
-      imgs.length != 4
+      imgs.length !== 4
     )
       setTimeout(removeAlerts, 3000);
     else {
-      setForm({
-        ...form,
-        startTime: new Date(startDate + "T" + startTime),
-        endTime: new Date(endDate + "T" + endTime),
-      });
-
       await Promise.all(
         imgs.map(async (img) => {
           const formData = new FormData();
@@ -242,11 +237,26 @@ const AdForm = (props) => {
           return res.data.imagePath;
         })
       ).then(async (res) => {
+        console.log(
+          Math.abs(
+            new Date(startDate + "T" + startTime) -
+              new Date(endDate + "T" + endTime)
+          )
+        );
         await props.postAd({
           ...form,
           images: res,
+          startTime: new Date(startDate + "T" + startTime),
+          endTime: new Date(endDate + "T" + endTime),
+          duration:
+            Math.abs(
+              new Date(startDate + "T" + startTime) -
+                new Date(endDate + "T" + endTime)
+            ) / 1000,
         });
         navigate("/");
+        console.log("st",startTime);
+        console.log("et",endTime);
       });
     }
   };
@@ -258,7 +268,7 @@ const AdForm = (props) => {
 
   return (
     <Fragment>
-      <Nav />
+      <Nav/>
       <div
         style={{
           width: "100vw",
@@ -313,7 +323,7 @@ const AdForm = (props) => {
                 required={true}
                 pattern="[a-zA-Z]+"
                 placeholder="Enter the name of the product"
-                maxLength={15}
+                maxLength={25}
                 style={{
                   fontFamily: "GilroyLight",
                   fontSize: ".9rem",
@@ -329,7 +339,7 @@ const AdForm = (props) => {
                   marginTop: "5px",
                 }}
               >
-                Do not exceed 15 characters when entering the product name.
+                Do not exceed 25 characters when entering the product name.
               </p>
             </div>
             <div
@@ -435,9 +445,21 @@ const AdForm = (props) => {
               <textarea
                 id="descInput"
                 name="description"
+                maxLength={450}
                 onChange={(e) => handleFormChange(e)}
                 className={styles["form-control-textarea"]}
               ></textarea>
+              <p
+                style={{
+                  fontFamily: "GilroyLight",
+                  fontSize: ".9rem",
+                  color: "#9f9f9d",
+                  margin: "0",
+                  marginTop: "5px",
+                }}
+              >
+                Do not exceed 450 characters when entering the description.
+              </p>
             </div>
           </div>
           <div
@@ -750,6 +772,7 @@ const AdForm = (props) => {
           </div>
         </div>
       </div>
+      <Footer/>
     </Fragment>
   );
 };

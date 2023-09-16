@@ -13,7 +13,7 @@ const Nav = (props) => {
       className={`navbar navbar-expand-lg navbar-light bg-light ${styles.nav}`}
     >
       <RouterLink className="navbar-brand" to="/">
-        <span className={`ml-2 ${styles.navLogo}`}>Auction🔨</span>
+        {/* <span className={`ml-2 ${styles.navLogo}`}>Auction🔨</span> */}
       </RouterLink>
       <button
         className="navbar-toggler"
@@ -44,11 +44,32 @@ const Nav = (props) => {
                 </RouterLink>
               </li>
               <li className="nav-item">
+                <RouterLink className={`nav-link ${styles.navLink}`} to="/profile">
+                  Profile
+                </RouterLink>
+              </li>
+              <li className="nav-item">
                 <RouterLink
                   className={`nav-link ${styles.navLink}`}
                   to="/postad"
                 >
                   Post Ad
+                </RouterLink>
+              </li>
+              <li className="nav-item">
+                <RouterLink
+                  className={`nav-link ${styles.navLink}`}
+                  to="/myads"
+                >
+                  AdList
+                </RouterLink>
+              </li>
+              <li className="nav-item">
+                <RouterLink
+                  className={`nav-link ${styles.navLink}`}
+                  to="/purchaseList"
+                >
+                  MyPurchase
                 </RouterLink>
               </li>
             </div>

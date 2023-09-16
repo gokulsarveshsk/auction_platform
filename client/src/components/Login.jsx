@@ -111,7 +111,7 @@ const Login = (props) => {
             }}
           >
             <div className={styles["form-group"]}>
-              <h2 className={styles["text-center-h2"]}>Welcome Back!</h2>
+              <h2 className={styles["text-center-h2"]}>Welcome Back Cheif!</h2>
               <p className={styles["text-center-p"]}>
                 Enter your details below.
               </p>

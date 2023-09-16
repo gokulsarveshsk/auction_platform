@@ -36,6 +36,10 @@ function MediaCard(props) {
     }
   };
 
+  // startTime - currentTime 
+  let timeLeft = new Date(props.ad.startTime) - new Date();
+  console.log("timeleft:",timeLeft);
+
   let sToHms = secondsToHmsShort(props.ad.timer).split(" ");
   let seconds = "";
   let min = "";

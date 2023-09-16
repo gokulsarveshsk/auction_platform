@@ -18,7 +18,7 @@ import {
 } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
 
-import Nav from "./Nav";
+
 import Spinner from "./Spinner";
 // import Share from "./ShareSVG";
 import CopyBtn from "./CopyButton";
@@ -37,8 +37,21 @@ const Ad = (props) => {
   const [bidButton, setBidButton] = useState(true);
   const [ownerAd, setOwnerAd] = useState(false);
   const [startButton, setStartButton] = useState(true);
+  const [mainImage, setMainImage] = useState(imagePlaceholder);
+  const [hour, setHour] = useState("00");
+  const [minute, setMinute] = useState("00");
+  const [second, setSecond] = useState("00");
   //   const [shareBtnColor, setShareBtnColor] = useState("#111918");
   const navigate = useNavigate();
+
+  const mainImageStyle = {
+    backgroundImage: `url(${mainImage})`,
+    height: "100%",
+    width: "100%",
+    borderRadius: "15px",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
 
   // Update bid button status based on auction status and bid price
   const updateBidButtonStatus = (updatedPrice) => {
@@ -64,6 +77,10 @@ const Ad = (props) => {
   useEffect(() => {
     if (props.adDetails.images) {
       props.loadAdImages(props.adDetails.images);
+    }
+    if (props.adImages && props.adImages.length > 0) {
+      setMainImage(props.adImages[0]);
+      console.log("Main Image Set:", props.adImages[0]);
     }
   }, [props.adDetails.images]);
 
@@ -162,7 +179,17 @@ const Ad = (props) => {
 
   // Render loading spinner during authentication check
   if (props.authLoading) {
-    return <Spinner />;
+    return (
+      <div
+        style={{
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spinner />
+      </div>
+    );
   }
 
   // Redirect to login page if not authenticated
@@ -172,7 +199,17 @@ const Ad = (props) => {
 
   // Show spinner while loading ad details or highest bid
   if (props.loading || props.loadingHighestBid) {
-    return <Spinner />;
+    return (
+      <div
+        style={{
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spinner />
+      </div>
+    );
   }
 
   // Event handler for bid price input change
@@ -193,17 +230,6 @@ const Ad = (props) => {
     e.preventDefault();
     props.startAuction(props.adDetails._id);
     props.setAlert("Auction started", "success");
-  };
-
-  // Helper function to get the time remaining in the auction
-  const getTimeRemaining = () => {
-    return secondsToHms(props.adDetails.timer);
-  };
-
-  // Helper function to get the UTC date from a given date
-  const getUTCDate = (dt) => {
-    let isodt = new Date(dt);
-    return isodt.toDateString();
   };
 
   // Determine the auction status based on ad details
@@ -229,7 +255,6 @@ const Ad = (props) => {
     <Spinner />
   ) : (
     <Fragment>
-      <Nav />
       <div
         style={{
           height: "90vh",
@@ -250,26 +275,62 @@ const Ad = (props) => {
           }}
         >
           {!props.imageLoading && props.adImages ? (
-            <div
-              style={{
-                background: `url(${
-                  props.adDetails.image !== "/upload/image/undefined"
-                    ? props.adImages[0]
-                    : // ? process.env.REACT_APP_API_BASE_URL +
-                      //   "/upload/image/" +
-                      // props.adImages[0]
-                      imagePlaceholder
-                })`,
-                height: "100%",
-                width: "100%",
-                borderRadius: "15px",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-            ></div>
+            // Create a div that will contain background image which is initially first element of adImages array and will change on mouseclick on the other images in the array that are shown as thumbnails
+            <div id="main-image" style={mainImageStyle}>
+              {/* Create a div that will contain the thumbnails of the images */}
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "flex-end",
+                  padding: "10px",
+                }}
+              >
+                <div
+                  // add glassmorphic style
+                  style={{
+                    height: "100px",
+                    // width: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "10px",
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    backdropFilter: "blur(10px)",
+                    borderRadius: "15px",
+                  }}
+                >
+                  {props.adImages.map((image, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        backgroundImage: `url(${image})`,
+                        height: "65px",
+                        width: "65px",
+                        borderRadius: "15px",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        cursor: "pointer",
+                        marginRight: "5px",
+                        marginLeft: "5px",
+                      }}
+                      onClick={() => {
+                        // Change the background image of the main image container
+                        setMainImage(image);
+                      }}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            </div>
           ) : (
-            <Spinner />
+            // center the loader
+
+            <div class={styles["loader"]}></div>
           )}
         </div>
         {props.adDetails.basePrice ? (
@@ -374,7 +435,7 @@ const Ad = (props) => {
                   </div>
                 </div>
               </div>
-              <CopyBtn />
+              <CopyBtn link={window.location.href} />
               {/* <div
                 id="share-btn"
                 style={{

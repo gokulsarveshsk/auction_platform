@@ -61,14 +61,14 @@ adIo.on('connect', (socket) => {
   // socket.join('testroom')
   socket.on('joinAd', ({ ad }) => {
     socket.join(ad.toString());
-    // console.log(`User joined room ${ad}`);
+    console.log(`User joined room ${ad}`);
   });
   socket.on('leaveAd', ({ ad }) => {
     socket.leave(ad.toString());
-    // console.log(`Left room ${ad}`);
+    console.log(`Left room ${ad}`);
   });
   socket.on('disconnect', () => {
-    // console.log('User has disconnect from ad');
+    console.log('User has disconnect from ad');
   });
 });
 // Connect DB and Initialize server
@@ -77,18 +77,44 @@ server.listen(PORT, () => {
   console.log(`### Server running on port ${PORT}`);
 });
 
+// cron.schedule('* * * * * *', async () => {
+//   try {
+//     const currentTime = moment().unix(); // Current time in Unix timestamp
+//     // console.log("currentTime", currentTime)
+//     let data = { startTime: currentTime}
+//     const adsToTrigger = await Ad.find(data);
+//     for (const ad of adsToTrigger) {
+//       const adId = ad._id; // Adjust this based on your data structure
+//       const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
+//       let res = await axios.get(url);
+//       console.log("res", res);
+//       console.log(`HTTP GET request triggered for ad ${adId}`);
+//     }
+//     // console.log('Scheduled task executed successfully.');
+//   } catch (error) {
+//     console.error('Error in scheduled task:', error);
+//   }
+// });
 cron.schedule('* * * * * *', async () => {
   try {
     const currentTime = moment().unix(); // Current time in Unix timestamp
-    let data = { startTime: currentTime}
-    const adsToTrigger = await Ad.find(data);
+    // console.log("Current Time:", moment.unix(currentTime).format("YYYY-MM-DD HH:mm:ss"));
+    
+    // Find ads where startTime is less than or equal to the current time
+    const adsToTrigger = await Ad.find({ startTime: { $lte: currentTime } });
+
     for (const ad of adsToTrigger) {
       const adId = ad._id; // Adjust this based on your data structure
       const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
-      let res = await axios.get(url);
-      console.log("res", res);
-      console.log(`HTTP GET request triggered for ad ${adId}`);
+      const response = await axios.get(url);
+
+      if (response.status === 200) {
+        console.log(`HTTP GET request triggered for ad ${adId}`);
+      } else {
+        console.error(`Error triggering HTTP GET request for ad ${adId}: ${response.status} - ${response.statusText}`);
+      }
     }
+
     // console.log('Scheduled task executed successfully.');
   } catch (error) {
     console.error('Error in scheduled task:', error);

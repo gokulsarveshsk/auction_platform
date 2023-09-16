@@ -62,7 +62,44 @@ exports.registerUser = async (req, res, next) => {
           from:  process.env.AUTH_EMAIL, // Replace with your Gmail email
           to: email,
           subject: 'Welcome to Our Website',
-          text: `Hello ${username},\n\nThank you for registering on our website!`,
+          html: `
+    <html>
+      <head>
+        <style>
+          /* Add your CSS styles here */
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #888888;
+          }
+          h1 {
+            color: #ff5722;
+          }
+          p {
+            font-size: 16px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Hello ${username},</h1>
+          <p>Welcome to the heart and soul of our online community! 🚀</p>
+          <p>We're absolutely thrilled to have you join us. Your journey with us is about to get even more exciting!</p>
+          <p>🎉 Let's dive into a world of endless possibilities and discoveries together! 🌐</p>
+          <p>Thank you for entrusting us with your online adventure. If you ever need a guiding hand or have any questions, don't hesitate to reach out.</p>
+          <p>Cheers to new beginnings!</p>
+          <p>Warm regards,<br>[Your Company Name]</p>
+        </div>
+      </body>
+    </html>
+  `,
         };
 
         await transporter.sendMail(mailOptions);

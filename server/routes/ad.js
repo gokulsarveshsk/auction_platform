@@ -16,8 +16,8 @@ router.post(
     body('productName', 'Invalid productName').trim().not().isEmpty(),
     body('basePrice', 'Invalid basePrice').trim().isNumeric(),
     body('duration', 'Invalid duration').trim().isNumeric(),
-    body('startTime', 'Invalid startTime').optional().isISO8601(), // Validate ISO8601 date format
-    body('endTime', 'Invalid endTime').optional().isISO8601(),
+    body('startTime', 'Invalid startTime'),
+    body('endTime', 'Invalid endTime'),
   ],
   adController.addAd
 );
