@@ -3,6 +3,7 @@ const Ad = require("../models/Ad");
 const Room = require("../models/Room");
 const User = require("../models/User");
 const io = require("../socket");
+const moment = require('../middlewares/timezoneConfig');
 
 // @route   POST /ad
 // @desc    Post a new ad
@@ -14,7 +15,7 @@ exports.addAd = async (req, res, next) => {
     });
   }
 
-  const {
+  let {
     productName,
     category,
     basePrice,
@@ -25,10 +26,24 @@ exports.addAd = async (req, res, next) => {
     duration,
   } = req.body;
 
-  if (duration === null || duration === 0) duration = 300;
+
+  console.log("req. body", req.body);
+
+  startTime = moment(req.body.startTime).valueOf();
+  endTime = moment(req.body.endTime).valueOf();
+  console.log("data refractures ", startTime, endTime);
+  duration =  endTime- startTime;
+  // if (duration === null || duration === 0) duration = 300;
   // if (duration > 10800) duration = 3600;
   const timer = duration;
+  console.log("Data", 
+  startTime, endTime, duration
+  );
 
+  console.log("Data", 
+  moment(startTime).format('MMMM DD, YYYY hh:mm:ss'), 
+  moment(endTime).format('MMMM DD, YYYY hh:mm:ss')
+  );
   try {
     let ad = new Ad({
       productName,

@@ -246,8 +246,8 @@ const AdForm = (props) => {
         await props.postAd({
           ...form,
           images: res,
-          startTime: new Date(startDate + "T" + startTime),
-          endTime: new Date(endDate + "T" + endTime),
+          startTime: startDate + "T" + startTime,
+          endTime: endDate + "T" + endTime,
           duration:
             Math.abs(
               new Date(startDate + "T" + startTime) -

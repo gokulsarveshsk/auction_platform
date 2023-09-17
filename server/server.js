@@ -1,5 +1,5 @@
 const express = require('express');
-const moment = require('moment');
+const moment = require('./middlewares/timezoneConfig');
 require('dotenv').config();
 const connectDb = require('./db/dbconnect');
 const { createServer } = require('http');
