@@ -3,10 +3,12 @@ const Ad = require("../models/Ad");
 const Room = require("../models/Room");
 const User = require("../models/User");
 const io = require("../socket");
-const moment = require('../middlewares/timezoneConfig');
+// const moment = require('../middlewares/timezoneConfig');
+const moment = require("moment-timezone");
 
 // @route   POST /ad
 // @desc    Post a new ad
+
 exports.addAd = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -26,45 +28,41 @@ exports.addAd = async (req, res, next) => {
     duration,
   } = req.body;
 
-
   console.log("req. body", req.body);
 
-  startTime = moment(req.body.startTime).valueOf();
-  endTime = moment(req.body.endTime).valueOf();
-  console.log("data refractures ", startTime, endTime);
-  duration =  endTime- startTime;
-  // if (duration === null || duration === 0) duration = 300;
-  // if (duration > 10800) duration = 3600;
+  // Convert startTime and endTime to 'Asia/Kolkata' time zone
+  const timezone = 'Asia/Kolkata';
+  const kolkataStartTime = moment.utc(startTime).tz(timezone);
+  const kolkataEndTime = moment.utc(endTime).tz(timezone);
+
+  console.log("data refractures ", kolkataStartTime, kolkataEndTime);
+
+  // Calculate duration in seconds
+  duration = kolkataEndTime.diff(kolkataStartTime, 'seconds');
   const timer = duration;
-  console.log("Data", 
-  startTime, endTime, duration
+
+  console.log("Data", kolkataStartTime, kolkataEndTime, duration);
+
+  console.log(
+    "Data",
+    kolkataStartTime.format('MMMM DD, YYYY hh:mm:ss'),
+    kolkataEndTime.format('MMMM DD, YYYY hh:mm:ss')
   );
 
-  console.log("Data", 
-  moment(startTime).format('MMMM DD, YYYY hh:mm:ss'), 
-  moment(endTime).format('MMMM DD, YYYY hh:mm:ss')
-  );
   try {
     let ad = new Ad({
       productName,
       description,
       basePrice,
       currentPrice: basePrice,
-      startTime,
-      endTime,
+      startTime: kolkataStartTime.toDate(), // Convert to JavaScript Date
+      endTime: kolkataEndTime.toDate(),     // Convert to JavaScript Date
       duration,
       timer,
       category,
       owner: req.user.id,
       images, // Store the object with four image paths directly in the 'images' field
     });
-    
-console.log(ad.startTime);
-console.log(ad.endTime);
-
-    // images.forEach((image, index) => {
-    //   ad.images[index] = `/upload/image/${image}`; // Store the image paths as strings
-    // });
 
     // Create room for auction
     let room = new Room({ ad: ad._id });
@@ -85,6 +83,7 @@ console.log(ad.endTime);
     res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
+
 // exports.addAd = async (req, res, next) => {
 //   const errors = validationResult(req);
 //   if (!errors.isEmpty()) {
