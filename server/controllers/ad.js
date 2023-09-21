@@ -28,20 +28,20 @@ exports.addAd = async (req, res, next) => {
     duration,
   } = req.body;
 
-  console.log("req. body", req.body);
+  console.log("[INFO] req. body", req.body);
 
   // Convert startTime and endTime to 'Asia/Kolkata' time zone
   const timezone = 'Asia/Kolkata';
   const kolkataStartTime = moment.utc(startTime).tz(timezone);
   const kolkataEndTime = moment.utc(endTime).tz(timezone);
 
-  console.log("data refractures ", kolkataStartTime, kolkataEndTime);
+  console.log("[INFO] data refractures ", kolkataStartTime, kolkataEndTime);
 
   // Calculate duration in seconds
   duration = kolkataEndTime.diff(kolkataStartTime, 'seconds');
   const timer = duration;
 
-  console.log("Data", kolkataStartTime, kolkataEndTime, duration);
+  console.log("[INFO] Data", kolkataStartTime, kolkataEndTime, duration);
 
   console.log(
     "Data",
@@ -113,7 +113,7 @@ exports.addAd = async (req, res, next) => {
 //     });
 //     ad.image = `/upload/image/${ad.image}`;
 
-//     console.log("ad body", ad);
+//     console.log("[INFO] ad body", ad);
 //     // Create room for auction
 //     let room = new Room({ ad: ad._id });
 //     room = await room.save();

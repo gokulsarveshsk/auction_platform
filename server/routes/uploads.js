@@ -16,7 +16,7 @@ const upload = multer({ dest: "uploads" });
 router.post("/image", isAuth, upload.single("image"), async (req, res) => {
   const file = req.file;
   try {
-    console.log("req.file", req.file);
+    console.log("[INFO] req.file", req.file);
     const result = await uploadFile(file);
     await unlinkFile(file.path);
     res.status(200).json({ imagePath: result.Key });
@@ -31,7 +31,7 @@ router.post("/image", isAuth, upload.single("image"), async (req, res) => {
 // @access  protected
 // router.get('/image/:key', async (req, res) => {
 //   try {
-//     console.log("req.params.key", req.params);
+//     console.log("[INFO] req.params.key", req.params);
 //     const fileBuffer = await getFileStream(req.params.key);
 
 //     res.status(200).send(fileBuffer);

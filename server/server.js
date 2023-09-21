@@ -80,14 +80,14 @@ server.listen(PORT, () => {
 // cron.schedule('* * * * * *', async () => {
 //   try {
 //     const currentTime = moment().unix(); // Current time in Unix timestamp
-//     // console.log("currentTime", currentTime)
+//     // console.log("[INFO] currentTime", currentTime)
 //     let data = { startTime: currentTime}
 //     const adsToTrigger = await Ad.find(data);
 //     for (const ad of adsToTrigger) {
 //       const adId = ad._id; // Adjust this based on your data structure
 //       const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
 //       let res = await axios.get(url);
-//       console.log("res", res);
+//       console.log("[INFO] res", res);
 //       console.log(`HTTP GET request triggered for ad ${adId}`);
 //     }
 //     // console.log('Scheduled task executed successfully.');
@@ -98,11 +98,11 @@ server.listen(PORT, () => {
 cron.schedule('* * * * * *', async () => {
   try {
     const currentTime = moment().unix(); // Current time in Unix timestamp
-    // console.log("Current Time:", moment.unix(currentTime).format("YYYY-MM-DD HH:mm:ss"));
+    // console.log("[INFO] Current Time:", moment.unix(currentTime).format("YYYY-MM-DD HH:mm:ss"));
     // Find ads where startTime is less than or equal to the current time
     let adsToTrigger = await Ad.find({ startTime: currentTime });
     
-    console.log("Checking for Current Time:", currentTime, adsToTrigger);
+    console.log("[INFO] [INFO] CRON Job Checking Time:", currentTime, adsToTrigger);
     for (const ad of adsToTrigger) {
       const adId = ad._id; // Adjust this based on your data structure
       const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
@@ -114,12 +114,9 @@ cron.schedule('* * * * * *', async () => {
         console.error(`Error triggering HTTP GET request for ad ${adId}: ${response.status} - ${response.statusText}`);
       }
     }
-    adsToTrigger = []
-    console.log("came to empty", adsToTrigger);
 
     // console.log('Scheduled task executed successfully.');
   } catch (error) {
-    adsToTrigger = []
     console.error('Error in scheduled task:', error);
   }
 });

@@ -18,7 +18,7 @@ exports.startAuction = async (req, res, next) => {
   const { adId } = req.params;
   try {
     const now = new Date();
-    console.log("came here!!");
+    console.log("[INFO] came here!!");
     let ad = await Ad.findById(adId);
     
     ad.auctionStarted = true;
