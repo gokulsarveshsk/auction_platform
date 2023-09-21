@@ -55,8 +55,8 @@ exports.addAd = async (req, res, next) => {
       description,
       basePrice,
       currentPrice: basePrice,
-      startTime: kolkataStartTime.toDate(), // Convert to JavaScript Date
-      endTime: kolkataEndTime.toDate(),     // Convert to JavaScript Date
+      startTime: kolkataStartTime.unix(), // Convert to JavaScript Date
+      endTime: kolkataEndTime.unix(),     // Convert to JavaScript Date
       duration,
       timer,
       category,

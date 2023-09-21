@@ -26,11 +26,11 @@ const adSchema = new mongoose.Schema(
       type: Number,
     },
     startTime: {
-      type: Date,
+      type: types.Decimal128,
       required: true,
     },
     endTime: {
-      type: Date,
+      type: types.Decimal128,
       required: true,
     },
     soldAt: {

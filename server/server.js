@@ -99,10 +99,10 @@ cron.schedule('* * * * * *', async () => {
   try {
     const currentTime = moment().unix(); // Current time in Unix timestamp
     // console.log("Current Time:", moment.unix(currentTime).format("YYYY-MM-DD HH:mm:ss"));
-    
     // Find ads where startTime is less than or equal to the current time
-    const adsToTrigger = await Ad.find({ startTime: { $lte: currentTime } });
-
+    let adsToTrigger = await Ad.find({ startTime: currentTime });
+    
+    console.log("Checking for Current Time:", currentTime, adsToTrigger);
     for (const ad of adsToTrigger) {
       const adId = ad._id; // Adjust this based on your data structure
       const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
@@ -114,9 +114,12 @@ cron.schedule('* * * * * *', async () => {
         console.error(`Error triggering HTTP GET request for ad ${adId}: ${response.status} - ${response.statusText}`);
       }
     }
+    adsToTrigger = []
+    console.log("came to empty", adsToTrigger);
 
     // console.log('Scheduled task executed successfully.');
   } catch (error) {
+    adsToTrigger = []
     console.error('Error in scheduled task:', error);
   }
 });
