@@ -3,8 +3,8 @@ const Ad = require("../models/Ad");
 const Room = require("../models/Room");
 const User = require("../models/User");
 const io = require("../socket");
-// const moment = require('../middlewares/timezoneConfig');
-const moment = require("moment-timezone");
+const moment = require('moment');
+// const moment = require("moment-timezone");
 
 // @route   POST /ad
 // @desc    Post a new ad
@@ -32,22 +32,24 @@ exports.addAd = async (req, res, next) => {
 
   // Convert startTime and endTime to 'Asia/Kolkata' time zone
   const timezone = 'Asia/Kolkata';
-  const kolkataStartTime = moment.utc(startTime).tz(timezone);
-  const kolkataEndTime = moment.utc(endTime).tz(timezone);
-
+  // startTime = startTime + ":00"
+  // endTime = endTime + ":00"
+  const date = moment(startTime).format('YYYY-MM-DD');
+const time = moment(startTime).format('HH:mm:ss');
+const fun = moment(date).add(time, 'hours:minutes');
+console.log("fun", startTime, moment(startTime).unix(),  moment.unix(moment(startTime).unix()).format('YYYY-MM-DD HH:mm:ss'));
+  const kolkataStartTime = moment(startTime).unix();
+  const kolkataEndTime =  moment(endTime).unix();
+  
   console.log("[INFO] data refractures ", kolkataStartTime, kolkataEndTime);
+  console.log("[INFO] data refractures ", moment(kolkataStartTime).format('YYYY-MM-DD HH:mm:ss'), moment(kolkataEndTime).format("YYYY-MM-DD HH:mm:ss"));
 
   // Calculate duration in seconds
-  duration = kolkataEndTime.diff(kolkataStartTime, 'seconds');
+  duration = kolkataEndTime - kolkataStartTime;
   const timer = duration;
 
-  console.log("[INFO] Data", kolkataStartTime, kolkataEndTime, duration);
+  console.log("[INFO] Duration", duration);
 
-  console.log(
-    "Data",
-    kolkataStartTime.format('MMMM DD, YYYY hh:mm:ss'),
-    kolkataEndTime.format('MMMM DD, YYYY hh:mm:ss')
-  );
 
   try {
     let ad = new Ad({
@@ -55,8 +57,8 @@ exports.addAd = async (req, res, next) => {
       description,
       basePrice,
       currentPrice: basePrice,
-      startTime: kolkataStartTime.unix(), // Convert to JavaScript Date
-      endTime: kolkataEndTime.unix(),     // Convert to JavaScript Date
+      startTime: kolkataStartTime, // Convert to JavaScript Date
+      endTime: kolkataEndTime,     // Convert to JavaScript Date
       duration,
       timer,
       category,
