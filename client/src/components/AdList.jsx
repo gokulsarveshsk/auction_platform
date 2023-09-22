@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import moment from "moment";
 // Project files
 import Spinner from "./Spinner";
 import Nav from "./Nav";
@@ -188,7 +188,8 @@ const AdList = (props) => {
                   padding: "15px 0",
                 }}
               >
-                {ad.startTime.split("T")[0]}
+                    {moment.unix(ad.startTime).format('YYYY-MM-DD HH:mm:ss').split("T")[0]}
+                {/* {ad.startTime.split("T")[0]} */}
               </td>
               <td
                 style={{
@@ -196,7 +197,8 @@ const AdList = (props) => {
                   padding: "15px 0",
                 }}
               >
-                {ad.endTime.split("T")[0]}
+                {moment.unix(ad.endTime).format('YYYY-MM-DD HH:mm:ss').split("T")[0]}
+                {/* {ad.endTime.split("T")[0]} */}
               </td>
               <td
                 style={{

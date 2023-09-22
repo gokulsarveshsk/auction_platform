@@ -129,6 +129,7 @@ const Board = (props) => {
                         borderRadius: "50%",
                         width: "40px",
                         height: "40px",
+                        margin: "5px",
                       }}
                       onClick={() => clickPageNumberButton(num)}
                     >

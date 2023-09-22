@@ -5,6 +5,20 @@ const authController = require('../controllers/auth');
 const isAuth = require('../middlewares/isAuth');
 
 const router = express.Router();
+const {
+  chatlogin,
+  chatregister,
+  getAllUsers,
+  setAvatar,
+  chatlogOut,
+} = require("../controllers/userController");
+
+
+router.post("/chatlogin", chatlogin);
+router.post("/chatregister", chatregister);
+router.get("/allusers/:id", getAllUsers);
+router.post("/setavatar/:id", setAvatar);
+router.get("/chatlogout/:id", chatlogOut);
 
 // @route   POST /auth
 // @desc    Login with credentials
