@@ -10,6 +10,10 @@ import AdForm from "./components/AdForm";
 import Nav from "./components/Nav";
 import Dashboard from "./components/Dashboard";
 import Profile from "./components/Profile";
+import ChatLogin from "./pages/Login";
+import ChatRegister from "./pages/Register";
+import Chat from "./pages/Chat";
+import SetAvatar from "./components/SetAvatar";
 // Actions
 import { loadUser } from "./actions/auth";
 // Redux
@@ -40,6 +44,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/myads" element={<AdList/>} />
           <Route path="/purchaseList" element={<PurchaseList />} />
+          <Route path="/chatregister" element={<ChatRegister />} />
+          <Route path="/chatlogin" element={<ChatLogin />} />
+          <Route path="/setAvatar" element={<SetAvatar />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </Provider>

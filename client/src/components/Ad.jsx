@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { connect } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import openSocket from "socket.io-client";
-
+import Chat from "./Chat";
 // Actions
 import {
   loadAdDetails,
@@ -17,7 +17,7 @@ import {
   clearAdDetails,
 } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
-
+import Nav from "./Nav";
 
 import Spinner from "./Spinner";
 // import Share from "./ShareSVG";
@@ -255,6 +255,7 @@ const Ad = (props) => {
     <Spinner />
   ) : (
     <Fragment>
+      <Nav/>
       <div
         style={{
           height: "90vh",
@@ -435,7 +436,11 @@ const Ad = (props) => {
                   </div>
                 </div>
               </div>
-              <CopyBtn link={window.location.href} />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+  <CopyBtn link={window.location.href} />
+  <div style={{ marginLeft: '10px' }}></div> {/* Adjust the spacing */}
+  <Chat />
+</div>
               {/* <div
                 id="share-btn"
                 style={{

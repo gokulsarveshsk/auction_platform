@@ -61,7 +61,7 @@ const Profile = (props) => {
                 </div>
             </div>
               <div className={styles["lower-part"]}>
-                <h2>{props.user.username}</h2>
+                <h2>{props.user.Username}</h2>
                 <p>{props.user.email}</p>
                 <p>{props.user.phone}</p>
                 <button className={styles["edit-button"]}>Edit Profile</button>

@@ -16,7 +16,7 @@ const Home = (props) => {
   }
 
   return (
-    <><div
+    <div
       className="home"
       style={{
         backgroundColor: "#F5F6FA",
@@ -33,7 +33,8 @@ const Home = (props) => {
       >
         <Board />
       </div>
-    </div><Footer /></>
+    <Footer />
+    </div>
   );
 };
 

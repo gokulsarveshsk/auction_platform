@@ -11,6 +11,8 @@ const cron = require('node-cron');
 const axios = require('axios');
 const Ad = require('./models/Ad'); // Import your Ad model
 
+const authRoutes = require("./routes/auth");
+const messageRoutes = require("./routes/messages");
 
 const app = express();
 const server = createServer(app);
@@ -45,7 +47,8 @@ app.use('/bid', require('./routes/bid'));
 app.use('/room', require('./routes/room'));
 app.use('/auction', require('./routes/auction'));
 app.use('/upload', require('./routes/uploads'));
-
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 // Socket.io setup
 const PORT = process.env.PORT || 3000;
 io.on('connection', (socket) => {
@@ -76,6 +79,21 @@ connectDb();
 server.listen(PORT, () => {
   console.log(`### Server running on port ${PORT}`);
 });
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    }
+  });
+});
+
 
 // cron.schedule('* * * * * *', async () => {
 //   try {
@@ -102,7 +120,7 @@ cron.schedule('* * * * * *', async () => {
     // Find ads where startTime is less than or equal to the current time
     let adsToTrigger = await Ad.find({ startTime: currentTime });
     
-    console.log("[INFO] [INFO] CRON Job Checking Time:", currentTime, adsToTrigger);
+    // console.log("[INFO] [INFO] CRON Job Checking Time:", currentTime, adsToTrigger);
     for (const ad of adsToTrigger) {
       const adId = ad._id; // Adjust this based on your data structure
       const url = `${process.env.SERVER_BASE_URL}/auction/start/${adId}`; // Replace with your actual URL
