@@ -6,7 +6,8 @@ import "./css/home.css";
 // Components
 import Board from "./Board";
 import Alert from "./Alert";
-import Footer from "./Footer"
+import Nav from "./Nav";
+import Footer from "./Footer";
 // import Board from "./Board";
 
 const Home = (props) => {
@@ -22,6 +23,10 @@ const Home = (props) => {
         backgroundColor: "#F5F6FA",
       }}
     >
+      <Nav />
+      {/* <div className='nav__display'>
+        <Nav />
+      </div> */}
       <div className="alert__display">
         <Alert />
       </div>
@@ -33,7 +38,7 @@ const Home = (props) => {
       >
         <Board />
       </div>
-    <Footer />
+      <Footer />
     </div>
   );
 };

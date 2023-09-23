@@ -6,8 +6,8 @@ import React, {useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Nav from "./Nav";
 // Project files
-import Spinner from "./OldSpinner";
 
+import Spinner from "./Spinner";
 // Actions
 import { getUserPurchasedAds } from "../actions/ad";
 
@@ -36,7 +36,7 @@ const Profile = (props) => {
   }
 
   const backgroundImageStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    // backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     zIndex: 1,
@@ -61,10 +61,11 @@ const Profile = (props) => {
                 </div>
             </div>
               <div className={styles["lower-part"]}>
-                <h2>{props.user.Username}</h2>
-                <p>{props.user.email}</p>
-                <p>{props.user.phone}</p>
-                <button className={styles["edit-button"]}>Edit Profile</button>
+                <p>Email: {props.user.email}</p>
+              <p>Name: {props.user.username}</p>
+                <p>Phone:{props.user.phone}</p>
+                <p>Address:{props.user.address}</p>
+                
               </div>
           </div>
         </div>

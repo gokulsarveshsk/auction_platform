@@ -14,14 +14,15 @@ import ChatLogin from "./pages/Login";
 import ChatRegister from "./pages/Register";
 import Chat from "./pages/Chat";
 import SetAvatar from "./components/SetAvatar";
+import NotFound from "./components/NotFound";
 // Actions
 import { loadUser } from "./actions/auth";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
 import PurchaseList from "./components/PurchaseList";
-import Footer from "./components/Footer";
 import AdList from "./components/AdList";
+import PaymentForm from "./components/PaymentForm";
 
 function App() {
   // Load user
@@ -48,7 +49,10 @@ function App() {
           <Route path="/chatlogin" element={<ChatLogin />} />
           <Route path="/setAvatar" element={<SetAvatar />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="*" element={<NotFound/>} />
+          <Route path="/payments" element={<PaymentForm/>}/>
         </Routes>
+
       </BrowserRouter>
     </Provider>
   );

@@ -12,7 +12,6 @@ import { postAd } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
 
 import styles from "./css/AdForm.module.css";
-import Footer from "./Footer";
 
 const AdForm = (props) => {
   const [form, setForm] = useState({
@@ -26,13 +25,18 @@ const AdForm = (props) => {
     duration: 0,
   });
 
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [startTime, setStartTime] = useState(
+    new Date().getHours() + 1 + ":" + new Date().getMinutes() + ":00"
+  );
+  const [endDate, setEndDate] = useState();
+  const [endTime, setEndTime] = useState(
+    new Date().getHours() + 2 + ":" + new Date().getMinutes() + ":00"
+  );
   const [imgs, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [imgPaths, setImgPaths] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -152,7 +156,7 @@ const AdForm = (props) => {
       cInp.style.border = "2px solid #df501c";
     }
 
-    if (form.basePrice === 0) {
+    if (form.basePrice === "") {
       let bInp = document.getElementById("basePriceInput");
       let bLabel = document.getElementById("basePriceLabel");
       bLabel.style.color = "#df501c";
@@ -214,15 +218,16 @@ const AdForm = (props) => {
       form.category === "" ||
       form.basePrice === 0 ||
       form.description === "" ||
-      imgs.length !== 4 ||
+      imgs.length != 4 ||
       startDate === "" ||
       startTime === "" ||
       endDate === "" ||
       endTime === "" ||
-      imgs.length !== 4
+      imgs.length != 4
     )
       setTimeout(removeAlerts, 3000);
     else {
+      setUploading(true);
       await Promise.all(
         imgs.map(async (img) => {
           const formData = new FormData();
@@ -237,26 +242,23 @@ const AdForm = (props) => {
           return res.data.imagePath;
         })
       ).then(async (res) => {
-        console.log(
-          Math.abs(
-            new Date(startDate + "T" + startTime) -
-              new Date(endDate + "T" + endTime)
-          )
-        );
+        // add overlay with loading spinner
+        setUploading(true);
         await props.postAd({
           ...form,
           images: res,
-          startTime: startDate + "T" + startTime,
-          endTime: endDate + "T" + endTime,
+          startTime: new Date(startDate + "T" + startTime),
+          endTime: new Date(endDate + "T" + endTime),
           duration:
             Math.abs(
               new Date(startDate + "T" + startTime) -
                 new Date(endDate + "T" + endTime)
             ) / 1000,
         });
+
+        // remove overlay with loading spinner
+        setUploading(false);
         navigate("/");
-        console.log("st",startTime);
-        console.log("et",endTime);
       });
     }
   };
@@ -268,7 +270,7 @@ const AdForm = (props) => {
 
   return (
     <Fragment>
-      <Nav/>
+      <Nav />
       <div
         style={{
           width: "100vw",
@@ -634,6 +636,7 @@ const AdForm = (props) => {
                   <input
                     id="startDate"
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     value={startDate}
                     className={styles["form-control"]}
                     style={{
@@ -658,7 +661,6 @@ const AdForm = (props) => {
                     id="startTime"
                     type="time"
                     value={startTime}
-                    // value="00:00:00"
                     step={1}
                     className={styles["form-control"]}
                     // style={{ width: "95%" }}
@@ -706,6 +708,19 @@ const AdForm = (props) => {
                       fontFamily: "GilroyLight",
                       fontSize: ".9rem",
                     }}
+                    value={endDate}
+                    min={
+                      startDate === ""
+                        ? new Date().toISOString().split("T")[0]
+                        : startDate
+                    }
+                    max={
+                      new Date(
+                        new Date(startDate).getTime() + 24 * 60 * 60 * 1000
+                      )
+                        .toISOString()
+                        .split("T")[0]
+                    }
                     onChange={(e) => handleEndDateChange(e)}
                   />
                 </div>
@@ -724,6 +739,16 @@ const AdForm = (props) => {
                     id="endTime"
                     type="time"
                     // value="00:00:00"
+                    value={endTime}
+                    min={
+                      startTime === ""
+                        ? new Date().getHours() +
+                          1 +
+                          ":" +
+                          new Date().getMinutes() +
+                          ":00"
+                        : startTime.split
+                    }
                     step={1}
                     className={styles["form-control"]}
                     // style={{ width: "95%" }}
@@ -772,7 +797,6 @@ const AdForm = (props) => {
           </div>
         </div>
       </div>
-      <Footer/>
     </Fragment>
   );
 };

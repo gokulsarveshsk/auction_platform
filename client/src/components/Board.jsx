@@ -5,18 +5,12 @@ import openSocket from "socket.io-client";
 
 import { loadAds, adPostedByOther, updateAdInList } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
-import Nav from "./Nav"
+
+import Chatbot from "./Support";
 import Spinner from "./Spinner";
 import Card from "./Card";
-import Footer from "./Footer";
-import styles from "./css/Board.module.css";
 
-// import {
-//   adAreaStyle,
-//   boardCardStyle,
-//   boardStyle,
-//   paginationStyle,
-// } from "./css/boardStyle";
+import styles from "./css/Board.module.css";
 
 const Board = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -78,18 +72,20 @@ const Board = (props) => {
   };
 
   return props.loading ? (
-    <div
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <Spinner />
-    </div>
+    <Spinner />
   ) : (
-    <><Nav /><div
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: "100",
+          right: "10px",
+          bottom: "0px",
+        }}
+      >
+        <Chatbot />
+      </div>
+      <div
         className="container"
         style={{
           backgroundColor: "#F5F6FA",
@@ -129,7 +125,7 @@ const Board = (props) => {
                         borderRadius: "50%",
                         width: "40px",
                         height: "40px",
-                        margin: "5px",
+                        marginBottom: "25px",
                       }}
                       onClick={() => clickPageNumberButton(num)}
                     >
@@ -142,7 +138,7 @@ const Board = (props) => {
           </div>
         </div>
       </div>
-      </>
+    </div>
   );
 };
 

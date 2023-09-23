@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
+
 // Project files
 import Spinner from "./Spinner";
 import Nav from "./Nav";
@@ -11,8 +11,10 @@ import imagePlaceholder from "../images/no-image-icon.png";
 
 import { loadUserAds } from "../actions/ad";
 
+const moment = require("moment-timezone");
+
 const AdList = (props) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,22 +22,25 @@ const AdList = (props) => {
   useEffect(() => {
     setLoading(true);
 
-    if (props.isAuth) {
-      const fetchData = async () => {
-        const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/user/products/posted`
-        );
-        setAds(res.data);
-      };
-      fetchData();
-    }
-    setLoading(false);
-  }, [props.loading]);
+    // if (props.isAuth) {
+    const fetchData = async () => {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/user/products/posted`
+      );
+      setAds(res.data);
+      setLoading(false);
+    };
+    fetchData();
+    // } else {
+    //   setLoading(false);
+    //   navigate("/login");
+    // }
+  }, [props.isAuth]);
 
   console.log(props);
 
   return loading ? (
-    <LoadingDisplay />
+    <Spinner />
   ) : (
     <Fragment>
       <Nav />
@@ -188,8 +193,7 @@ const AdList = (props) => {
                   padding: "15px 0",
                 }}
               >
-                    {moment.unix(ad.startTime).format('YYYY-MM-DD HH:mm:ss').split("T")[0]}
-                {/* {ad.startTime.split("T")[0]} */}
+                {moment.unix(ad.startTime.$numberDecimal).format("YYYY-MM-DD")}
               </td>
               <td
                 style={{
@@ -197,8 +201,7 @@ const AdList = (props) => {
                   padding: "15px 0",
                 }}
               >
-                {moment.unix(ad.endTime).format('YYYY-MM-DD HH:mm:ss').split("T")[0]}
-                {/* {ad.endTime.split("T")[0]} */}
+                {moment.unix(ad.endTime.$numberDecimal).format("YYYY-MM-DD")}
               </td>
               <td
                 style={{

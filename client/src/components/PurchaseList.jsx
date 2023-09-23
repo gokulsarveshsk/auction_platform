@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import imagePlaceholder from "../images/no-image-icon.png";
-
+import PaymentForm from "./PaymentForm";
 // Project files
 import Spinner from "./Spinner";
 import Nav from "./Nav";
@@ -10,7 +10,10 @@ import Nav from "./Nav";
 // Actions
 import { getUserPurchasedAds } from "../actions/ad";
 
+const moment = require("moment-timezone");
+
 const PurchaseList = (props) => {
+  console.log(props.purchased);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -99,7 +102,7 @@ const PurchaseList = (props) => {
         </thead>
         <tbody>
           {props.purchased.map((ad) => (
-            <tr
+            <tr 
               key={ad._id}
               style={{
                 borderBottom: "1px solid #ddd",
@@ -173,7 +176,7 @@ const PurchaseList = (props) => {
                     // textAlign: "center",
                   }}
                 >
-                  {ad.endTime.split("T")[0]}
+                  {moment.unix(ad.endTime.$numberDecimal).format("YYYY-MM-DD")}
                 </p>
               </td>
               <td
@@ -182,11 +185,20 @@ const PurchaseList = (props) => {
                 }}
               >
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary" color="#daa520"
                   onClick={() => handlePurchasedDetails(ad._id)}
                 >
                   Details
                 </button>
+                <button onClick={() => {
+                  navigate("/payments")
+                }} className="btn btn-primary" color="#daa520"
+                >
+                  Payment
+                </button>
+                {
+                  ad.paid ? <p style={{color: "green"}}>Paid</p> : <p style={{color: "red"}}>Not Paid</p>
+                }
               </td>
             </tr>
           ))}

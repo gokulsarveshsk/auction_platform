@@ -19,12 +19,12 @@ import { profileTableStyle, tableCellStyle } from "./css/dashStyle";
 import { clearAlerts } from "../actions/alert";
 
 // Project files
-import Spinner from "./OldSpinner";
+import Spinner from "./Spinner";
 import DashboardAdList from "./DashboardAdList";
-import LoadingDisplay from "./LoadingDisplay";
+
 // Actions
 import { getUserPurchasedAds } from "../actions/ad";
-import DashPurchasedList from "./OldDashPurchasedList";
+
 
 const Dashboard = (props) => {
   const navigate = useNavigate();

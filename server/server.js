@@ -10,15 +10,16 @@ const swaggerDoc = require('./documentation/swaggerSetup');
 const cron = require('node-cron');
 const axios = require('axios');
 const Ad = require('./models/Ad'); // Import your Ad model
-
 const authRoutes = require("./routes/auth");
 const messageRoutes = require("./routes/messages");
-
+const { resolve } = require("path");
 const app = express();
 const server = createServer(app);
 const io = socketio.init(server);
 const adIo = socketio.initAdIo(server, '/socket/adpage');
 const upload = multer({ dest: 'uploads/' });
+const paymentRoutes = require("./routes/payments");
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Body parser
 app.use(express.json());
@@ -30,7 +31,24 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', '*');
   next();
 });
+// Use the payment routes
+app.use("/payments", paymentRoutes);
 
+app.post('/create-payment-intent', async (req, res) => {
+  const { adId, amount } = req.body;
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.floor(amount * 100), // Amount in cents
+      currency: 'usd', // Change to your currency
+    });
+
+    res.json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error('Error creating Payment Intent:', error.message);
+    res.status(500).json({ error: 'Error creating Payment Intent' });
+  }
+});
 // Documentation setup
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
