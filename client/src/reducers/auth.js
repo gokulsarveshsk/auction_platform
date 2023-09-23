@@ -42,6 +42,7 @@ export default function authReduce(state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
+      localStorage.removeItem(process.env.REACT_APP_LOCALHOST_KEY);
       return {
         ...state,
         token: null,

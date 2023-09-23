@@ -12,8 +12,10 @@ export default function Logout() {
     )._id;
     const data = await axios.get(`${logoutRoute}/${id}`);
     if (data.status === 200) {
+      localStorage.removeItem('token');
+
       localStorage.clear();
-      navigate("/chatlogin");
+      navigate("/login");
     }
   };
   return (

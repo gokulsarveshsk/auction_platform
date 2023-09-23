@@ -16,7 +16,7 @@ export default function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/chatlogin");
+      navigate("/login");
     } else {
       setCurrentUser(
         await JSON.parse(

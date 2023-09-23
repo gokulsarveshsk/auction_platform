@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const User = require('../models/User');
+const axios  = require('axios');
+// import { Buffer } from 'buffer';
+// let Buffer  = require('buffer');
 
 exports.registerUser = async (req, res, next) => {
   try {
@@ -23,12 +26,22 @@ exports.registerUser = async (req, res, next) => {
     // Encrypt password
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const api = `https://api.multiavatar.com/4645646`;
+    const image = await axios.get(
+      `${api}/${Math.round(Math.random() * 1000)}`
+    );
+    console.log("image", image.data);
+    const buffer = Buffer.from(image.data).toString("base64");
+    console.log(buffer);
+    // data.push(buffer.toString("base64"));
+
     user = new User({
       username: username,
       email,
       password: hashedPassword,
       phone,
       address,
+      avatarImage: buffer
     });
 
     // Save user

@@ -9,6 +9,7 @@ import {
 } from './types';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
+import { loginRoute } from "../utils/APIRoutes";
 
 // Load user
 export const loadUser = () => async (dispath) => {
@@ -30,45 +31,45 @@ export const loadUser = () => async (dispath) => {
 // Register user
 export const register =
   ({ name, email, password, phone, address }) =>
-  async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    async (dispatch) => {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
 
-    const body = JSON.stringify({ username: name, email, password, address, phone });
+      const body = JSON.stringify({ username: name, email, password, address, phone });
 
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/user`,
-        body,
-        config
-      );
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_BASE_URL}/user`,
+          body,
+          config
+        );
 
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
 
-      // Load user
-      dispatch(loadUser());
-    } catch (err) {
-      // Get errors array sent by api
-      if (!err.response) {
-        dispatch(setAlert('Server error', 'error'));
-      } else {
-        const errors = err.response.data.errors;
-        if (errors) {
-          errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+        // Load user
+        dispatch(loadUser());
+      } catch (err) {
+        // Get errors array sent by api
+        if (!err.response) {
+          dispatch(setAlert('Server error', 'error'));
+        } else {
+          const errors = err.response.data.errors;
+          if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+          }
         }
-      }
 
-      dispatch({
-        type: LOGIN_FAIL,
-      });
-    }
-  };
+        dispatch({
+          type: LOGIN_FAIL,
+        });
+      }
+    };
 
 // Login user
 export const login = (email, password) => async (dispatch) => {
@@ -86,6 +87,17 @@ export const login = (email, password) => async (dispatch) => {
       body,
       config
     );
+    let username = email;
+    const { data } = await axios.post(loginRoute, {
+      username,
+      password,
+    });
+    if (data.status === true) {
+      localStorage.setItem(
+        process.env.REACT_APP_LOCALHOST_KEY,
+        JSON.stringify(data.user)
+      );
+    }
     console.log(res.data);
 
     dispatch({
