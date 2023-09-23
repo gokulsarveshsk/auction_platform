@@ -14,7 +14,7 @@ import styles from "./css/Board.module.css";
 
 const Board = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [adPerPage] = useState(6);
+  const [adPerPage] = useState(12);
 
   useEffect(() => {
     if (props.passedUser) {
@@ -88,7 +88,6 @@ const Board = (props) => {
       <div
         className="container"
         style={{
-          backgroundColor: "#F5F6FA",
           width: "100%",
         }}
       >
@@ -97,7 +96,7 @@ const Board = (props) => {
             props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => (
               <div
                 key={ad._id}
-                className="col-sm-12 col-md-6 col-lg-4 col-xl-4"
+                className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
                 style={{
                   alignItems: "center",
                   justifyContent: "center",

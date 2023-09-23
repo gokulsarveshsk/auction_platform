@@ -268,7 +268,9 @@ const AdForm = (props) => {
     return <Navigate to="/login" />;
   }
 
-  return (
+  return uploading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <Nav />
       <div

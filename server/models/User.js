@@ -39,6 +39,15 @@ const userSchema = new mongoose.Schema({
       ref: 'ad',
     },
   ],
+  isAvatarImageSet: [{
+    type: Boolean,
+    default: true,
+  }],
+  avatarImage: [{
+    type: String,
+    default: "",
+  }],
+
 });
 
 module.exports = mongoose.model('user', userSchema);

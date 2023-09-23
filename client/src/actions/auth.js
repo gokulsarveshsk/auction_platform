@@ -9,7 +9,7 @@ import {
 } from './types';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
-
+import { loginRoute } from "../utils/APIRoutes";
 // Load user
 export const loadUser = () => async (dispath) => {
   if (localStorage.token) setAuthToken(localStorage.token);
@@ -86,6 +86,18 @@ export const login = (email, password) => async (dispatch) => {
       body,
       config
     );
+    let username = email;
+    const { data } = await axios.post(loginRoute, {
+      username,
+      password,
+    });
+    if (data.status === true) {
+      localStorage.setItem(
+        process.env.REACT_APP_LOCALHOST_KEY,
+        JSON.stringify(data.user)
+      );
+    }
+    console.log(res.data);
     console.log(res.data);
 
     dispatch({

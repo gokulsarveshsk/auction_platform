@@ -188,15 +188,23 @@ function MediaCard(props) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <div>
+          <div
+            style={{
+              width: "100px",
+            }}
+          >
             <h5
               style={{
                 fontSize: "1rem",
                 fontFamily: "GilroyRegular",
                 color: "#000",
                 fontWeight: "bold",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "...",
               }}
             >
               {props.ad.productName}
@@ -212,8 +220,25 @@ function MediaCard(props) {
               <p>{props.ad.currentPrice.$numberDecimal}</p>
             </span>
           </div>
-          <div>
-            <p>{updateAuctionStatus(props.ad)}</p>
+          <div
+            style={{
+              background: "#2d2d2d",
+              color: "#fff",
+              height: "5%",
+              width: "40%",
+              textAlign: "center",
+              justifyContent: "center",
+              borderRadius: "5px",
+              padding: "5px",
+            }}
+          >
+            <p
+              style={{
+                margin: "0",
+              }}
+            >
+              {updateAuctionStatus(props.ad)}
+            </p>
           </div>
         </div>
       </div>
