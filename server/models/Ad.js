@@ -21,18 +21,16 @@ const adSchema = new mongoose.Schema(
     },
     duration: {
       type: Number,
-      default: 300,
     },
     timer: {
       type: Number,
-      default: 300,
     },
     startTime: {
-      type: Date,
+      type: types.Decimal128,
       required: true,
     },
     endTime: {
-      type: Date,
+      type: types.Decimal128,
       required: true,
     },
     soldAt: {
@@ -44,7 +42,7 @@ const adSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    catergory: {
+    category: {
       type: String,
     },
     auctionStarted: {

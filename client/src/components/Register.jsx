@@ -19,6 +19,8 @@ import ShowPassword from "../assets/show-password.svg";
 import Karolina from "../assets/karolina-grabowska.jpg";
 
 const Register = (props) => {
+  const [loading, setLoading] = useState(false);
+
   const [formData, setForm] = useState({
     name: "",
     email: "",
@@ -31,7 +33,7 @@ const Register = (props) => {
   const { name, email, password, password2, address, phone } = formData;
 
   const onChange = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     setForm({
       ...formData,
       [e.target.name]: e.target.value,
@@ -145,7 +147,9 @@ const Register = (props) => {
 
       props.setAlert("Passwords do not match", "error");
     } else {
+      setLoading(true);
       props.register({ name, email, password, address, phone });
+      setLoading(false);
     }
     setTimeout(removeAler, 3500);
   };
@@ -155,7 +159,7 @@ const Register = (props) => {
     return <Navigate to="/" />;
   }
 
-  return props.loading ? (
+  return props.loading || loading ? (
     <Spinner />
   ) : (
     <Fragment>

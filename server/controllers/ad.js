@@ -3,9 +3,12 @@ const Ad = require("../models/Ad");
 const Room = require("../models/Room");
 const User = require("../models/User");
 const io = require("../socket");
+// const moment = require('../middlewares/timezoneConfig');
+const moment = require("moment-timezone");
 
 // @route   POST /ad
 // @desc    Post a new ad
+
 exports.addAd = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -14,7 +17,7 @@ exports.addAd = async (req, res, next) => {
     });
   }
 
-  const {
+  let {
     productName,
     category,
     basePrice,
@@ -25,9 +28,26 @@ exports.addAd = async (req, res, next) => {
     duration,
   } = req.body;
 
-  if (duration === null || duration === 0) duration = 300;
-  if (duration > 10800) duration = 3600;
+  console.log("[INFO] req. body", req.body);
+
+  // Convert startTime and endTime to 'Asia/Kolkata' time zone
+  const timezone = "Asia/Kolkata";
+  const kolkataStartTime = moment.utc(startTime).tz(timezone);
+  const kolkataEndTime = moment.utc(endTime).tz(timezone);
+
+  console.log("[INFO] data refractures ", kolkataStartTime, kolkataEndTime);
+
+  // Calculate duration in seconds
+  duration = kolkataEndTime.diff(kolkataStartTime, "seconds");
   const timer = duration;
+
+  console.log("[INFO] Data", kolkataStartTime, kolkataEndTime, duration);
+
+  console.log(
+    "Data",
+    kolkataStartTime.format("MMMM DD, YYYY hh:mm:ss"),
+    kolkataEndTime.format("MMMM DD, YYYY hh:mm:ss")
+  );
 
   try {
     let ad = new Ad({
@@ -35,18 +55,14 @@ exports.addAd = async (req, res, next) => {
       description,
       basePrice,
       currentPrice: basePrice,
-      startTime,
-      endTime,
+      startTime: kolkataStartTime.unix(), // Convert to JavaScript Date
+      endTime: kolkataEndTime.unix(), // Convert to JavaScript Date
       duration,
       timer,
       category,
       owner: req.user.id,
       images, // Store the object with four image paths directly in the 'images' field
     });
-
-    // images.forEach((image, index) => {
-    //   ad.images[index] = `/upload/image/${image}`; // Store the image paths as strings
-    // });
 
     // Create room for auction
     let room = new Room({ ad: ad._id });
@@ -67,55 +83,6 @@ exports.addAd = async (req, res, next) => {
     res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 };
-// exports.addAd = async (req, res, next) => {
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({
-//       errors: errors.array(),
-//     });
-//   }
-
-//   let { productName, basePrice, startTime, endTime, duration, image, category, description } = req.body;
-//   if (duration === null || duration === 0) duration = 300;
-//   if (duration > 10800) duration = 3600;
-//   const timer = duration;
-
-//   try {
-//     let ad = new Ad({
-//       productName,
-//       description,
-//       basePrice,
-//       currentPrice: basePrice,
-//       startTime,
-//       endTime,
-//       duration,
-//       timer,
-//       image,
-//       category,
-//       owner: req.user.id,
-//     });
-//     ad.image = `/upload/image/${ad.image}`;
-
-//     console.log("ad body", ad);
-//     // Create room for auction
-//     let room = new Room({ ad: ad._id });
-//     room = await room.save();
-
-//     ad.room = room._id;
-//     ad = await ad.save();
-
-//     const user = await User.findById(ad.owner);
-//     user.postedAds.push(ad._id);
-//     await user.save();
-
-//     io.getIo().emit('addAd', { action: 'add', ad: ad });
-
-//     res.status(200).json({ ad, room });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ errors: [{ msg: 'Server error' }] });
-//   }
-// };
 
 // @route   GET /ad
 // @desc    Retrieve list of all ads

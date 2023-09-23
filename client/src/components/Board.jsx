@@ -6,21 +6,15 @@ import openSocket from "socket.io-client";
 import { loadAds, adPostedByOther, updateAdInList } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
 
+import Chatbot from "./Support";
 import Spinner from "./Spinner";
 import Card from "./Card";
 
 import styles from "./css/Board.module.css";
 
-// import {
-//   adAreaStyle,
-//   boardCardStyle,
-//   boardStyle,
-//   paginationStyle,
-// } from "./css/boardStyle";
-
 const Board = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [adPerPage] = useState(6);
+  const [adPerPage] = useState(12);
 
   useEffect(() => {
     if (props.passedUser) {
@@ -80,55 +74,67 @@ const Board = (props) => {
   return props.loading ? (
     <Spinner />
   ) : (
-    <div
-      className="container"
-      style={{
-        backgroundColor: "#F5F6FA",
-        width: "100%",
-      }}
-    >
-      <div className="row">
-        {props.ads.length > 0 ? (
-          props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => (
-            <div
-              key={ad._id}
-              className="col-sm-12 col-md-6 col-lg-4 col-xl-4"
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Card ad={ad} />
-            </div>
-          ))
-        ) : (
-          <h1>No ads available</h1>
-        )}
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: "100",
+          right: "10px",
+          bottom: "0px",
+        }}
+      >
+        <Chatbot />
       </div>
-      <div className="row">
-        <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <nav>
-            <ul className="pagination justify-content-center">
-              {pageNumbers.map((num) => (
-                <li key={num} className="page-item">
-                  <button
-                    className={`page-link ${styles["page-button"]}`}
-                    style={{
-                      backgroundColor: num === pageNumber ? "#2d2d2d" : "",
-                      color: num === pageNumber ? "white" : "",
-                      border: num === pageNumber ? "none" : "",
-                      borderRadius: "50%",
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={() => clickPageNumberButton(num)}
-                  >
-                    {num}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      <div
+        className="container"
+        style={{
+          width: "100%",
+        }}
+      >
+        <div className="row">
+          {props.ads.length > 0 ? (
+            props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => (
+              <div
+                key={ad._id}
+                className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Card ad={ad} />
+              </div>
+            ))
+          ) : (
+            <h1>No ads available</h1>
+          )}
+        </div>
+        <div className="row">
+          <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <nav>
+              <ul className="pagination justify-content-center">
+                {pageNumbers.map((num) => (
+                  <li key={num} className="page-item">
+                    <button
+                      className={`page-link ${styles["page-button"]}`}
+                      style={{
+                        backgroundColor: num === pageNumber ? "#2d2d2d" : "",
+                        color: num === pageNumber ? "white" : "",
+                        border: num === pageNumber ? "none" : "",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        marginBottom: "25px",
+                      }}
+                      onClick={() => clickPageNumberButton(num)}
+                    >
+                      {num}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </div>

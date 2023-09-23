@@ -1,90 +1,55 @@
-.wrapper {
+.spinner {
+  border: 0 solid transparent;
+  border-radius: 50%;
   width: 50px;
-  height: 60px;
-  position: absolute;
-  z-index: 1;
-  top: 43%;
-  left: 43%;
+  height: 50px;
 }
 
-.circle {
-  width: 20px;
-  height: 20px;
+.loader {
+  width: inherit;
+  height: inherit;
   position: absolute;
+}
+
+.loader::before,
+.loader::after {
+  content: "";
+  border: 3px solid #505065;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.9);
-  left: 15%;
-  transform-origin: 50%;
-  animation: circle7124 0.5s alternate infinite ease;
-}
-
-@keyframes circle7124 {
-  0% {
-    top: 60px;
-    height: 5px;
-    border-radius: 50px 50px 25px 25px;
-    transform: scaleX(1.7);
-  }
-
-  40% {
-    height: 20px;
-    border-radius: 50%;
-    transform: scaleX(1);
-  }
-
-  100% {
-    top: 0%;
-  }
-}
-
-.circle:nth-child(2) {
-  left: 45%;
-  animation-delay: 0.2s;
-}
-
-.circle:nth-child(3) {
-  left: auto;
-  right: 15%;
-  animation-delay: 0.3s;
-}
-
-.shadow {
-  width: 20px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.9);
+  width: inherit;
+  height: inherit;
   position: absolute;
-  top: 62px;
-  transform-origin: 50%;
-  z-index: -1;
-  left: 15%;
-  filter: blur(1px);
-  animation: shadow046 0.5s alternate infinite ease;
+  opacity: 1;
 }
 
-@keyframes shadow046 {
-  0% {
-    transform: scaleX(1.5);
-  }
+.l1::before,
+.l1::after {
+  animation: clockwiseZ 2.5s infinite;
+}
 
-  40% {
-    transform: scaleX(1);
-    opacity: 0.7;
-  }
+.l2::after,
+.l2::before {
+  animation: anticlockwiseZ 2.5s infinite;
+}
 
+@keyframes clockwiseZ {
+  0%,
   100% {
-    transform: scaleX(0.2);
-    opacity: 0.4;
+    transform: rotateY(0);
+  }
+
+  50% {
+    transform: rotateY(180deg) skew(-10deg, -5deg);
   }
 }
 
-.shadow:nth-child(4) {
-  left: 45%;
-  animation-delay: 0.2s;
-}
+@keyframes anticlockwiseZ {
+  0%,
+  100% {
+    transform: rotateX(0);
+  }
 
-.shadow:nth-child(5) {
-  left: auto;
-  right: 15%;
-  animation-delay: 0.3s;
+  50% {
+    transform: rotateX(-180deg) skew(10deg, 5deg);
+  }
 }

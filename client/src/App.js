@@ -15,6 +15,9 @@ import { loadUser } from "./actions/auth";
 import { Provider } from "react-redux";
 import store from "./store";
 import PurchaseList from "./components/PurchaseList";
+import AdList from "./components/AdList";
+import Chatbot from "./components/Support";
+import NotFound from "./components/NotFound";
 
 function App() {
   // Load user
@@ -33,7 +36,9 @@ function App() {
           <Route path="/ads/:adId" element={<Ad />} />
           <Route path="/postad" element={<AdForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/purchased" element={<PurchaseList />} />
+          <Route path="/purchaseList" element={<PurchaseList />} />
+          <Route path="/myads" element={<AdList />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </Provider>

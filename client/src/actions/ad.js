@@ -249,6 +249,7 @@ export const placeBid = (adId, bidAmount) => async (dispatch) => {
 // Post ad
 export const postAd = (data) => async (dispatch) => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/ad`;
+
   try {
     const res = await axios.post(url, JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },
