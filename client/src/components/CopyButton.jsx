@@ -6,7 +6,17 @@ const CopyBtn = (props) => {
   return (
     <div className={styles["centralize"]}>
       <div>
-        <button className={styles["cpy-btn"]}>
+        <button
+          className={styles["cpy-btn"]}
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(props.link);
+              console.log("Text copied to clipboard successfully");
+            } catch (error) {
+              console.error("Unable to copy text to clipboard:", error);
+            }
+          }}
+        >
           <span>
             <svg
               viewBox="0 0 467 512.22"

@@ -20,14 +20,15 @@ import { setAlert, clearAlerts } from "../actions/alert";
 import Nav from "./Nav";
 
 import Spinner from "./Spinner";
+import Footer from "./Footer";
 // import Share from "./ShareSVG";
 import CopyBtn from "./CopyButton";
 import imagePlaceholder from "../images/no-image-icon.png";
 import blankProfile from "../assets/blank-profile.png";
 
-import { secondsToHms } from "../utils/secondsToHms";
-
 import styles from "./css/Ad.module.css";
+
+const moment = require("moment-timezone");
 
 const Ad = (props) => {
   console.log(props);
@@ -58,7 +59,8 @@ const Ad = (props) => {
     if (
       updatedPrice > Number(props.adDetails.currentPrice.$numberDecimal) &&
       props.adDetails.auctionStarted &&
-      !props.adDetails.auctionEnded
+      !props.adDetails.auctionEnded &&
+      props.highestBid?.user._id !== props.auth.user._id
     ) {
       setBidButton(false);
     } else {
@@ -177,6 +179,79 @@ const Ad = (props) => {
     props.adDetails.auctionEnded,
   ]);
 
+  useEffect(() => {
+    if (props.adImages && props.adImages.length > 0) {
+      setMainImage(props.adImages[0]);
+    }
+  }, [props.adImages]);
+
+  function formatTimeDifference(diff) {
+    const duration = moment.duration(diff);
+    let hours = Math.floor(duration.asHours());
+    let minutes = duration.minutes();
+    let seconds = duration.seconds();
+
+    hours = hours > 9 ? hours.toString() : "0" + hours;
+    minutes = minutes > 9 ? minutes.toString() : "0" + minutes;
+    seconds = seconds > 9 ? seconds.toString() : "0" + seconds;
+
+    return [hours, minutes, seconds];
+  }
+
+  useEffect(() => {
+    let interval;
+    if (!props.adDetails.auctionStarted && !props.adDetails.auctionEnded) {
+      interval = setInterval(() => {
+        if (props.adDetails.startTime?.$numberDecimal) {
+          let diff = moment(
+            moment.unix(props.adDetails.startTime.$numberDecimal)
+          ).diff(moment());
+          let [remHrs, remMins, remSecs] = formatTimeDifference(diff);
+          setHour(remHrs);
+          setMinute(remMins);
+          setSecond(remSecs);
+        }
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [
+    props.adDetails.auctionStarted,
+    props.adDetails.auctionEnded,
+    props.adDetails.startTime,
+  ]);
+
+  useEffect(() => {
+    let interval;
+    if (props.adDetails.auctionStarted && !props.adDetails.auctionEnded) {
+      interval = setInterval(() => {
+        if (props.adDetails.endTime?.$numberDecimal) {
+          let diff = moment(
+            moment.unix(props.adDetails.endTime.$numberDecimal)
+          ).diff(moment());
+          let [remHrs, remMins, remSecs] = formatTimeDifference(diff);
+          setHour(remHrs);
+          setMinute(remMins);
+          setSecond(remSecs);
+        }
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [props.adDetails.auctionEnded, props.adDetails.endTime]);
+
+  useEffect(() => {
+    if (props.adDetails.auctionEnded) {
+      setHour("00");
+      setMinute("00");
+      setSecond("00");
+    }
+  }, [props.adDetails.auctionEnded]);
+
   // Render loading spinner during authentication check
   if (props.authLoading) {
     return (
@@ -223,6 +298,24 @@ const Ad = (props) => {
     props.placeBid(props.adDetails._id, bidPrice);
     let inp = document.getElementById("price-inp");
     inp.value = "";
+
+    // Create a new overlay with loading spinner
+    let overlay = document.createElement("div");
+    overlay.setAttribute("id", "overlay");
+    overlay.style.position = "absolute";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "2";
+
+    let spinner = document.createElement("div");
+    spinner.classList.add(styles["loader"]);
+    overlay.appendChild(spinner);
   };
 
   // Event handler for starting the auction
@@ -331,7 +424,7 @@ const Ad = (props) => {
           ) : (
             // center the loader
 
-            <div class={styles["loader"]}></div>
+            <div className={styles["loader"]}></div>
           )}
         </div>
         {props.adDetails.basePrice ? (
@@ -358,7 +451,6 @@ const Ad = (props) => {
                 <h2 style={{ fontFamily: "GilroyBlack", fontSize: "2rem" }}>
                   {props.adDetails.productName}
                 </h2>
-
                 <span
                   style={{
                     fontFamily: "GilroySemiBold",
@@ -421,7 +513,7 @@ const Ad = (props) => {
                         margin: "0",
                       }}
                     >
-                      {props.adDetails.owner.username}
+                      {props.adDetails.owner?.username}
                     </p>
                     <p
                       style={{
@@ -436,11 +528,7 @@ const Ad = (props) => {
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-  <CopyBtn link={window.location.href} />
-  <div style={{ marginLeft: '10px' }}></div> {/* Adjust the spacing */}
-  <Chat />
-</div>
+              <CopyBtn link={window.location.href} />
               {/* <div
                 id="share-btn"
                 style={{
@@ -493,7 +581,7 @@ const Ad = (props) => {
                       marginBottom: "0",
                     }}
                   >
-                    ${props.adDetails.currentPrice.$numberDecimal}
+                    ₹{props.adDetails.currentPrice.$numberDecimal}
                   </p>
                 </span>
                 {props.highestBid ? (
@@ -518,7 +606,7 @@ const Ad = (props) => {
                         color: "#000",
                       }}
                     >
-                      {props.highestBid.user.username}
+                      {props.highestBid.user?.username}
                     </p>
                   </span>
                 ) : null}
@@ -608,7 +696,7 @@ const Ad = (props) => {
                             margin: "0",
                           }}
                         >
-                          0
+                          {hour[0]}
                         </h1>
                       </div>
                       <div
@@ -628,7 +716,7 @@ const Ad = (props) => {
                             margin: "0",
                           }}
                         >
-                          5
+                          {hour[1]}
                         </h1>
                       </div>
                     </div>
@@ -673,7 +761,7 @@ const Ad = (props) => {
                             margin: "0",
                           }}
                         >
-                          2
+                          {minute[0]}
                         </h1>
                       </div>
                       <div
@@ -693,7 +781,7 @@ const Ad = (props) => {
                             margin: "0",
                           }}
                         >
-                          6
+                          {minute[1]}
                         </h1>
                       </div>
                     </div>
@@ -739,7 +827,7 @@ const Ad = (props) => {
                             margin: "0",
                           }}
                         >
-                          1
+                          {second[0]}
                         </h1>
                       </div>
                       <div
@@ -759,7 +847,7 @@ const Ad = (props) => {
                             margin: "0",
                           }}
                         >
-                          9
+                          {second[1]}
                         </h1>
                       </div>
                     </div>
@@ -845,6 +933,7 @@ const Ad = (props) => {
           ></div>
         )}
       </div>
+      <Footer />
     </Fragment>
   );
 };

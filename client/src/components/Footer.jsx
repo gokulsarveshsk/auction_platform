@@ -1,11 +1,21 @@
-import React from 'react';
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import './css/footer.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faPhone, faEnvelopeOpen,faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import '@fortawesome/fontawesome-svg-core/styles.css'; // Import Font Awesome CSS
-import { faFacebookF, faInstagram, faTwitter,faTelegram} from '@fortawesome/free-brands-svg-icons';
- import logo from '../assets/logo.svg';
+import "./css/footer.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMapMarkerAlt,
+  faPhone,
+  faEnvelopeOpen,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import Font Awesome CSS
+import {
+  faFacebookF,
+  faInstagram,
+  faTwitter,
+  faTelegram,
+} from "@fortawesome/free-brands-svg-icons";
+import logo from "../assets/logo.svg";
 const Footer = () => {
   return (
     <footer className="footer-section">
@@ -14,7 +24,15 @@ const Footer = () => {
           <div className="row">
             <div className="col-xl-4 col-md-4 mb-30">
               <div className="single-cta">
+<<<<<<< HEAD
               <FontAwesomeIcon icon={faMapMarkerAlt} className="icon-color" size="2x" />
+=======
+                <FontAwesomeIcon
+                  icon={faMapMarkerAlt}
+                  className="icon-color"
+                  size="2x"
+                />
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                 <div className="cta-text">
                   <h4>Find us</h4>
                   <span>1010 Avenue, sw 54321, chandigarh</span>
@@ -23,7 +41,15 @@ const Footer = () => {
             </div>
             <div className="col-xl-4 col-md-4 mb-30">
               <div className="single-cta">
+<<<<<<< HEAD
               <FontAwesomeIcon icon={faPhone} className="icon-color" size="2x" />
+=======
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  className="icon-color"
+                  size="2x"
+                />
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                 <div className="cta-text">
                   <h4>Call us</h4>
                   <span>9876543210 0</span>
@@ -32,7 +58,15 @@ const Footer = () => {
             </div>
             <div className="col-xl-4 col-md-4 mb-30">
               <div className="single-cta">
+<<<<<<< HEAD
               <FontAwesomeIcon icon={faEnvelopeOpen} className="icon-color" size="2x"/>
+=======
+                <FontAwesomeIcon
+                  icon={faEnvelopeOpen}
+                  className="icon-color"
+                  size="2x"
+                />
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                 <div className="cta-text">
                   <h4>Mail us</h4>
                   <span>mail@info.com</span>
@@ -47,11 +81,15 @@ const Footer = () => {
               <div className="footer-widget">
                 <div className="footer-logo">
                   <a href="index.html">
+<<<<<<< HEAD
                     <img
                       src={logo}
                       className="img-fluid"
                       alt="logo"
                     />
+=======
+                    <img src={logo} className="img-fluid" alt="logo" />
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                   </a>
                 </div>
                 <div className="footer-text">
@@ -64,6 +102,7 @@ const Footer = () => {
                 <div className="footer-social-icon">
                   <span>Follow us</span>
                   <a href="#">
+<<<<<<< HEAD
                   <FontAwesomeIcon icon={faFacebookF} className="icon-color" size="2x" />
                   </a>
                   <a href="#">
@@ -71,6 +110,27 @@ const Footer = () => {
                   </a>
                   <a href="#">
                   <FontAwesomeIcon icon={faTwitter} className="icon-color" size="2x" />
+=======
+                    <FontAwesomeIcon
+                      icon={faFacebookF}
+                      className="icon-color"
+                      size="2x"
+                    />
+                  </a>
+                  <a href="#">
+                    <FontAwesomeIcon
+                      icon={faInstagram}
+                      className="icon-color"
+                      size="2x"
+                    />
+                  </a>
+                  <a href="#">
+                    <FontAwesomeIcon
+                      icon={faTwitter}
+                      className="icon-color"
+                      size="2x"
+                    />
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                   </a>
                 </div>
               </div>
@@ -81,6 +141,7 @@ const Footer = () => {
                   <h3>Useful Links</h3>
                 </div>
                 <ul>
+<<<<<<< HEAD
 
                   <li>
                   <RouterLink  to="/">
@@ -98,6 +159,18 @@ const Footer = () => {
                   <RouterLink  to="/dashboard">
                   Dashboard
                  </RouterLink>
+=======
+                  <li>
+                    <RouterLink to="/">Home</RouterLink>
+                  </li>
+
+                  <li>
+                    <RouterLink to="/profile">Profile</RouterLink>
+                  </li>
+
+                  <li>
+                    <RouterLink to="/dashboard">Dashboard</RouterLink>
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                   </li>
 
                   <li>
@@ -119,7 +192,10 @@ const Footer = () => {
                   <li>
                     <a href="#">Expert Team</a>
                   </li>
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                 </ul>
               </div>
             </div>
@@ -138,7 +214,14 @@ const Footer = () => {
                   <form action="#">
                     <input type="text" placeholder="Email Address" />
                     <button>
+<<<<<<< HEAD
                     <FontAwesomeIcon icon={faPaperPlane} className="icon-color" />
+=======
+                      <FontAwesomeIcon
+                        icon={faPaperPlane}
+                        className="icon-color"
+                      />
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                     </button>
                   </form>
                 </div>
@@ -153,7 +236,11 @@ const Footer = () => {
             <div className="col-xl-6 col-lg-6 text-center text-lg-left">
               <div className="copyright-text">
                 <p>
+<<<<<<< HEAD
                   Copyright &copy; 2023, All Right Reserved{' '}
+=======
+                  Copyright &copy; 2023, All Right Reserved{" "}
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                   <a href="https://codepen.io/anupkumar92/"> Team 9/11</a>
                 </p>
               </div>
@@ -161,11 +248,16 @@ const Footer = () => {
             <div className="col-xl-6 col-lg-6 d-none d-lg-block text-right">
               <div className="footer-menu">
                 <ul>
+<<<<<<< HEAD
 
                   <li>
                   <RouterLink  to="/">
                   Home
                 </RouterLink>
+=======
+                  <li>
+                    <RouterLink to="/">Home</RouterLink>
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                   </li>
 
                   <li>
@@ -183,7 +275,10 @@ const Footer = () => {
                   <li>
                     <a href="#">Contact</a>
                   </li>
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
                 </ul>
               </div>
             </div>

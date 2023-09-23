@@ -1,6 +1,11 @@
 ul {
+<<<<<<< HEAD
     margin: 0px;
     padding: 0px;
+=======
+  margin: 0px;
+  padding: 0px;
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
 }
 .footer-section {
   background: #151414;
@@ -45,12 +50,20 @@ ul {
   margin-bottom: 30px;
 }
 .footer-logo img {
+<<<<<<< HEAD
     max-width: 200px;
+=======
+  max-width: 200px;
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
 }
 .footer-text p {
   margin-bottom: 14px;
   font-size: 14px;
+<<<<<<< HEAD
       color: #7e7e7e;
+=======
+  color: #7e7e7e;
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   line-height: 28px;
 }
 .footer-social-icon span {
@@ -58,7 +71,11 @@ ul {
   display: block;
   font-size: 20px;
   font-weight: 700;
+<<<<<<< HEAD
   font-family: 'Poppins', sans-serif;
+=======
+  font-family: "Poppins", sans-serif;
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   margin-bottom: 20px;
 }
 .footer-social-icon a {
@@ -73,6 +90,7 @@ ul {
   line-height: 38px;
   border-radius: 50%;
 }
+<<<<<<< HEAD
 .facebook-bg{
   background: #3B5998;
 }
@@ -80,6 +98,15 @@ ul {
   background: #55ACEE;
 }
 .google-bg{
+=======
+.facebook-bg {
+  background: #3b5998;
+}
+.twitter-bg {
+  background: #55acee;
+}
+.google-bg {
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   background: #daa520;
 }
 .footer-widget-heading h3 {
@@ -104,7 +131,11 @@ ul {
   width: 50%;
   margin-bottom: 12px;
 }
+<<<<<<< HEAD
 .footer-widget ul li a:hover{
+=======
+.footer-widget ul li a:hover {
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   color: #daa520;
 }
 .footer-widget ul li a {
@@ -118,6 +149,7 @@ ul {
 .subscribe-form input {
   width: 100%;
   padding: 14px 28px;
+<<<<<<< HEAD
   background: #2E2E2E;
   border: 1px solid #2E2E2E;
   color: #fff;
@@ -129,13 +161,30 @@ ul {
     padding: 13px 20px;
     border: 1px solid #daa520;
     top: 0;
+=======
+  background: #2e2e2e;
+  border: 1px solid #2e2e2e;
+  color: #fff;
+}
+.subscribe-form button {
+  position: absolute;
+  right: 0;
+  background: #000000;
+  padding: 13px 20px;
+  border: 1px solid #daa520;
+  top: 0;
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
 }
 .subscribe-form button i {
   color: #fff;
   font-size: 22px;
   transform: rotate(-6deg);
 }
+<<<<<<< HEAD
 .copyright-area{
+=======
+.copyright-area {
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   background: #202020;
   padding: 25px 0;
 }
@@ -144,14 +193,22 @@ ul {
   font-size: 14px;
   color: #878787;
 }
+<<<<<<< HEAD
 .copyright-text p a{
+=======
+.copyright-text p a {
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   color: #daa520;
 }
 .footer-menu li {
   display: inline-block;
   margin-left: 20px;
 }
+<<<<<<< HEAD
 .footer-menu li:hover a{
+=======
+.footer-menu li:hover a {
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843
   color: #daa520;
 }
 .footer-menu li a {
@@ -160,4 +217,8 @@ ul {
 }
 .icon-color {
   color: #daa520; /* Change to your desired color */
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ad8d3b09b0805d30ea6d3c324ca8aaa84ebc2843

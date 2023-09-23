@@ -26,13 +26,18 @@ const AdForm = (props) => {
     duration: 0,
   });
 
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [startTime, setStartTime] = useState(
+    new Date().getHours() + 1 + ":" + new Date().getMinutes() + ":00"
+  );
+  const [endDate, setEndDate] = useState();
+  const [endTime, setEndTime] = useState(
+    new Date().getHours() + 2 + ":" + new Date().getMinutes() + ":00"
+  );
   const [imgs, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [imgPaths, setImgPaths] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -152,7 +157,7 @@ const AdForm = (props) => {
       cInp.style.border = "2px solid #df501c";
     }
 
-    if (form.basePrice === 0) {
+    if (form.basePrice === "") {
       let bInp = document.getElementById("basePriceInput");
       let bLabel = document.getElementById("basePriceLabel");
       bLabel.style.color = "#df501c";
@@ -254,6 +259,9 @@ const AdForm = (props) => {
                 new Date(endDate + "T" + endTime)
             ) / 1000,
         });
+
+        // remove overlay with loading spinner
+        setUploading(false);
         navigate("/");
         console.log("st",startTime);
         console.log("et",endTime);
@@ -266,7 +274,9 @@ const AdForm = (props) => {
     return <Navigate to="/login" />;
   }
 
-  return (
+  return uploading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <Nav/>
       <div
@@ -634,6 +644,7 @@ const AdForm = (props) => {
                   <input
                     id="startDate"
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     value={startDate}
                     className={styles["form-control"]}
                     style={{
@@ -658,7 +669,6 @@ const AdForm = (props) => {
                     id="startTime"
                     type="time"
                     value={startTime}
-                    // value="00:00:00"
                     step={1}
                     className={styles["form-control"]}
                     // style={{ width: "95%" }}
@@ -706,6 +716,19 @@ const AdForm = (props) => {
                       fontFamily: "GilroyLight",
                       fontSize: ".9rem",
                     }}
+                    value={endDate}
+                    min={
+                      startDate === ""
+                        ? new Date().toISOString().split("T")[0]
+                        : startDate
+                    }
+                    max={
+                      new Date(
+                        new Date(startDate).getTime() + 24 * 60 * 60 * 1000
+                      )
+                        .toISOString()
+                        .split("T")[0]
+                    }
                     onChange={(e) => handleEndDateChange(e)}
                   />
                 </div>
@@ -724,6 +747,16 @@ const AdForm = (props) => {
                     id="endTime"
                     type="time"
                     // value="00:00:00"
+                    value={endTime}
+                    min={
+                      startTime === ""
+                        ? new Date().getHours() +
+                          1 +
+                          ":" +
+                          new Date().getMinutes() +
+                          ":00"
+                        : startTime.split
+                    }
                     step={1}
                     className={styles["form-control"]}
                     // style={{ width: "95%" }}

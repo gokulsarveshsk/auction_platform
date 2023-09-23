@@ -5,22 +5,16 @@ import openSocket from "socket.io-client";
 
 import { loadAds, adPostedByOther, updateAdInList } from "../actions/ad";
 import { setAlert, clearAlerts } from "../actions/alert";
-import Nav from "./Nav"
+
+import Chatbot from "./Support";
 import Spinner from "./Spinner";
 import Card from "./Card";
 import Footer from "./Footer";
 import styles from "./css/Board.module.css";
 
-// import {
-//   adAreaStyle,
-//   boardCardStyle,
-//   boardStyle,
-//   paginationStyle,
-// } from "./css/boardStyle";
-
 const Board = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [adPerPage] = useState(6);
+  const [adPerPage] = useState(12);
 
   useEffect(() => {
     if (props.passedUser) {
@@ -78,21 +72,22 @@ const Board = (props) => {
   };
 
   return props.loading ? (
-    <div
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <Spinner />
-    </div>
+    <Spinner />
   ) : (
-    <><Nav /><div
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: "100",
+          right: "10px",
+          bottom: "0px",
+        }}
+      >
+        <Chatbot />
+      </div>
+      <div
         className="container"
         style={{
-          backgroundColor: "#F5F6FA",
           width: "100%",
         }}
       >
@@ -101,7 +96,7 @@ const Board = (props) => {
             props.ads.slice(firstAdIndex, lastAdIndex).map((ad) => (
               <div
                 key={ad._id}
-                className="col-sm-12 col-md-6 col-lg-4 col-xl-4"
+                className="col-sm-12 col-md-6 col-lg-4 col-xl-3"
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
@@ -129,7 +124,7 @@ const Board = (props) => {
                         borderRadius: "50%",
                         width: "40px",
                         height: "40px",
-                        margin: "5px",
+                        marginBottom: "25px",
                       }}
                       onClick={() => clickPageNumberButton(num)}
                     >

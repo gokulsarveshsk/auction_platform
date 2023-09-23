@@ -17,6 +17,8 @@ import HidePassword from "../assets/hide-password.svg";
 import ShowPassword from "../assets/show-password.svg";
 
 const Login = (props) => {
+  console.log(props);
+  const [loading, setLoading] = useState(false);
   const [rememberme, setRemberme] = useState(false);
   const [formData, setForm] = useState({
     email: "",
@@ -72,7 +74,10 @@ const Login = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    console.log(loading);
     props.login(email, password);
+    setLoading(false);
 
     if (props.alerts.length > 0) setTimeout(removeAler, 4000);
   };
@@ -98,7 +103,7 @@ const Login = (props) => {
     return <Navigate to="/" />;
   }
 
-  return props.loading ? (
+  return props.loading || loading ? (
     <Spinner />
   ) : (
     <Fragment>
