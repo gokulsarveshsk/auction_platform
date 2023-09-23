@@ -8,15 +8,12 @@ module.exports.chatlogin = async (req, res, next) => {
     console.log("uder", User)
     if (!user)
       return res.json({ msg: "ehy Incorrect Username or Password", status: false });
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid)
-      return res.json({ msg: "Incorrect Username or Password", status: false });
     delete user.password;
-    delete user.phone
-    delete user.address
-    delete user.purchasedProducts
-    delete user.postedAds
-    delete user.bids
+    delete user.phone;
+    delete user.address;
+    delete user.purchasedProducts;
+    delete user.postedAds;
+    delete user.bids;
     return res.json({ status: true, user });
   } catch (ex) {
     next(ex);
