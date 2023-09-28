@@ -22,7 +22,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import PurchaseList from "./components/PurchaseList";
 import AdList from "./components/AdList";
-import PaymentForm from "./components/PaymentForm";
+import Checkout from "./components/Checkout";
 
 function App() {
   // Load user
@@ -50,7 +50,7 @@ function App() {
           <Route path="/setAvatar" element={<SetAvatar />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="*" element={<NotFound/>} />
-          <Route path="/payments" element={<PaymentForm/>}/>
+          <Route path="/checkout/:adId" element={<Checkout/>}/>
         </Routes>
 
       </BrowserRouter>

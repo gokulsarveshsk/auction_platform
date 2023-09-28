@@ -16,8 +16,8 @@ exports.joinRoom = async (req, res, next) => {
       return res.status(400).json({ errors: [{ msg: 'Already joined' }] });
     }
     room.users.push(user.id);
-    room.populate('users', { password: 0 });
     room = await room.save();
+    console.log("uysers joined", user.id);
     res.status(200).json({ msg: 'Successfully joined', room });
   } catch (error) {
     console.log(error);

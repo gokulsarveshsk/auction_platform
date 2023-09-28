@@ -86,6 +86,8 @@
 
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const Room = require("../models/Room");
+const Ad = require("../models/Ad");
 
 module.exports.chatlogin = async (req, res, next) => {
   try {
@@ -136,6 +138,19 @@ module.exports.getAllUsers = async (req, res, next) => {
       "avatarImage",
       "_id",
     ]);
+    console.log("req.params.i", req.params.id);
+    const userRooms = await Room.find({ users: { $elemMatch: { $eq: req.params.id } } });
+
+    // Step 2: Extract room IDs
+    const roomIds = userRooms.map(room => room._id);
+console.log("userRooms", userRooms);
+    // Step 3: Find ads in those rooms and populate the owner user IDs
+    const adsInRooms = await Ad.find({ roomId: { $in: roomIds } })
+      .populate('owner'); // Assuming 'userId' is the field containing the owner's user ID in the Ad model
+
+    // Extract the owner user IDs from the populated 'userId' field
+    const adOwners = adsInRooms.map(ad => ad.owner);
+    // console.log("adOwners", adOwners);
     return res.json(Users);
   } catch (ex) {
     next(ex);

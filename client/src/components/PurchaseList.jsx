@@ -1,20 +1,21 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import imagePlaceholder from "../images/no-image-icon.png";
-import PaymentForm from "./PaymentForm";
+
 // Project files
 import Spinner from "./Spinner";
 import Nav from "./Nav";
 
+import axios from "axios";
+
 // Actions
 import { getUserPurchasedAds } from "../actions/ad";
-
 const moment = require("moment-timezone");
 
 const PurchaseList = (props) => {
-  console.log(props.purchased);
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     if (props.isAuth) {
@@ -28,6 +29,22 @@ const PurchaseList = (props) => {
 
   const handlePurchasedDetails = (adId) => {
     navigate("/ads/" + adId);
+  };
+
+  const handlePurchasedPayments = (adId) => {
+    navigate("/checkout/" + adId);
+  };
+
+  const getPaymentStatus = async (adId) => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/payments/${adId}`
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   console.log(props);
@@ -91,18 +108,27 @@ const PurchaseList = (props) => {
             </th>
             <th
               style={{
-                textAlign: "right",
+                textAlign: "left",
                 fontSize: "1.2rem",
                 fontWeight: "bold",
               }}
             >
               Info
             </th>
+            <th
+              style={{
+                textAlign: "right",
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+              }}
+            >
+              Payment
+            </th>
           </tr>
         </thead>
         <tbody>
           {props.purchased.map((ad) => (
-            <tr 
+            <tr
               key={ad._id}
               style={{
                 borderBottom: "1px solid #ddd",
@@ -180,25 +206,38 @@ const PurchaseList = (props) => {
                 </p>
               </td>
               <td
+                style={
+                  {
+                    // textAlign: "right",
+                  }
+                }
+              >
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: "#2d2d2d",
+                    border: "none",
+                  }}
+                  onClick={() => handlePurchasedDetails(ad._id)}
+                >
+                  Details
+                </button>
+              </td>
+              <td
                 style={{
                   textAlign: "right",
                 }}
               >
                 <button
-                  className="btn btn-primary" color="#daa520"
-                  onClick={() => handlePurchasedDetails(ad._id)}
-                >
-                  Details
-                </button>
-                <button onClick={() => {
-                  navigate("/payments")
-                }} className="btn btn-primary" color="#daa520"
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: "#daa520",
+                    border: "none",
+                  }}
+                  onClick={() => handlePurchasedPayments(ad._id)}
                 >
                   Payment
                 </button>
-                {
-                  ad.paid ? <p style={{color: "green"}}>Paid</p> : <p style={{color: "red"}}>Not Paid</p>
-                }
               </td>
             </tr>
           ))}

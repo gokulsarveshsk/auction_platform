@@ -90,7 +90,7 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
-
+import Nav from "../components/Nav";
 export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
@@ -130,6 +130,7 @@ export default function Chat() {
   };
   return (
     <>
+    <Nav/>
       <Container>
         <div className="container">
           <Contacts contacts={contacts} changeChat={handleChatChange} />

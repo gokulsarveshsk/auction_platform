@@ -18,6 +18,7 @@ const AdList = (props) => {
 
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -36,6 +37,10 @@ const AdList = (props) => {
     //   navigate("/login");
     // }
   }, [props.isAuth]);
+
+  const handlePostedAds = (adId) => {
+    navigate("/ads/" + adId);
+  };
 
   console.log(props);
 
@@ -119,6 +124,16 @@ const AdList = (props) => {
               }}
             >
               Status
+            </th>
+            <th
+              style={{
+                textAlign: "right",
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                padding: "0 0 15px",
+              }}
+            >
+              Info
             </th>
           </tr>
         </thead>
@@ -226,6 +241,23 @@ const AdList = (props) => {
                     Not Sold
                   </span>
                 )}
+              </td>
+              <td
+                style={{
+                  textAlign: "right",
+                  padding: "15px 0",
+                }}
+              >
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: "#daa520",
+                    border: "none",
+                  }}
+                  onClick={() => handlePostedAds(ad._id)}
+                >
+                  Details
+                </button>
               </td>
             </tr>
           ))}
