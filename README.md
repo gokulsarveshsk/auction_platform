@@ -7,11 +7,15 @@ Welcome to the Auction Platform! This is a web application built using the MERN 
 ## Features ✨
 
 - User authentication and registration
-- mails sent to the user as notifications
+- Mails sent to the user as notifications
 - Place bids on items
 - View your bidding history
 - Real-time updates on auction status
 - chat with product owner and client
+- stripe payment
+- chatBot for support
+- Start bidding Automatically
+- invoice generation after the auction is finished
 
 ## Tech Stack 🚀
 
@@ -35,12 +39,12 @@ Welcome to the Auction Platform! This is a web application built using the MERN 
 8. Open your browser and visit: `http://localhost:3000`
 
 ## Screenshots 📷
+<img width="538" alt="Screenshot 2023-11-07 at 11 15 15 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/2e911ae1-bab1-4a7c-9bd7-11ae0f0e2d03">
+<img width="494" alt="Screenshot 2023-11-07 at 11 15 50 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/fae53a72-78ec-46cd-b8c2-1bdbc4d03b0a">
+<img width="520" alt="Screenshot 2023-11-07 at 11 16 28 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/22e8b8f4-cc92-4bf0-aa6c-53c29e610644">
+ <img width="539" alt="Screenshot 2023-11-07 at 11 17 15 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/b27fca91-7493-4365-940a-db9be8a9d653">
+<img width="411" alt="Screenshot 2023-11-07 at 11 17 40 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/992a68c0-14e7-4fae-aed1-fd0988338b1c">
 
-Soon
-
-## Contributing 🤝
-
-Contributions are welcome! Fork the repository and create a pull request with your changes.
 
 ## License 📄
 
