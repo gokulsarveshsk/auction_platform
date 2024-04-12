@@ -39,6 +39,8 @@ Welcome to the Auction Platform! This is a web application built using the MERN 
 8. Open your browser and visit: `http://localhost:3000`
 
 ## Screenshots 📷
+https://github.com/gokulsarveshsk/auction_platform/assets/106106967/419777cd-0c31-4dac-a511-a9bda943875b
+
 <img width="538" alt="Screenshot 2023-11-07 at 11 15 15 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/2e911ae1-bab1-4a7c-9bd7-11ae0f0e2d03">
 <img width="494" alt="Screenshot 2023-11-07 at 11 15 50 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/fae53a72-78ec-46cd-b8c2-1bdbc4d03b0a">
 <img width="520" alt="Screenshot 2023-11-07 at 11 16 28 PM" src="https://github.com/gokulsarveshsk/auction_platform/assets/106106967/22e8b8f4-cc92-4bf0-aa6c-53c29e610644">
